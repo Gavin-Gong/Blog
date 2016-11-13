@@ -12,7 +12,7 @@ let userSchema = new Schema({
   gender: String,
   email: String
 });
-
+// TODO 密码加密存储
 let Users = mongoose.model('users', userSchema);
 
 module.exports = Users;

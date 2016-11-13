@@ -1,0 +1,11 @@
+if messages.success
+    // TODO 样式编写, 页面加载完成后隐藏
+    .row.notification
+        .col.s12.m6.offset-m3
+            .card-panel.green
+                .white-text #{messages.success}
+if messages.error
+    .row.notification
+        .col.s12.m6.offset-m3
+            .card-panel.red
+                .white-text #{messages.error}

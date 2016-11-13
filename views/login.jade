@@ -8,12 +8,12 @@ block content
 				.card-panel
 					img.user-avatar.circle(src="/images/avatar.jpg")
 					//- h5.login-title.center-align 登录
-					form 
+					form(action="/users/login" method="post")
 						.input-field
 							input.validate(name='username', type='text', id='user_name')
-							label(for='user_name') UserName
+							label(for='user_name') 用户名
 						.input-field
 							input.validate(name='password', type='password', id='password')
-							label(for='password') Password
-						button.waves-effect.wave-light.btn.center-align(type='button') Login
+							label(for='password') 密码
+						button.waves-effect.wave-light.btn.center-align(type='submit') 登录
 							i.material-icons.right send

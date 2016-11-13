@@ -9,11 +9,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var flash = require('express-flash');
 
 // require router
 var index = require('./routes/index');
 var users = require('./routes/users');
-var login = require('./routes/login');
 var posts = require('./routes/posts');
 
 // db
@@ -43,17 +43,15 @@ app.use(session({
     autoRemove: 'native'
   }),
   cookie: {
-    user_name: 'gavin',
-    admin: true,
     maxAge: 1000 * 60 * 60 * 24
   },
 }));
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // router setting
 app.use('/', index);
 app.use('/users', users);
-app.use('/login', login);
 app.use('/posts', posts);
 
 // try some feature & delete me in the end

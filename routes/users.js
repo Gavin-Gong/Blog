@@ -31,12 +31,36 @@ router.post('/signup', (req, res) => {
 
 });
 
+
 router.get('/login', (req, res) => {
+  console.log('flash', req.flash('success'));
+  console.log('login');
   res.render('login');
 });
 
 router.post('/login', (req, res) => {
-  userModel.find({username: req.body.username},);
-})
+  console.log('body', req.body);
+  console.log(req.session);
+  userModel.find({username: req.body.username}, (err, user) => {
+    console.log('data', user);
+    if (user.length && user[0].password === req.body.password) {
+      // TODO 记住登录状态
+      req.session.cookie.isLogin = true;
+      req.flash('success', '登录成功');
+      console.log('登录成功');
+      return res.redirect('/posts/all');
+    }
+    if (!user.length) {
+      console.log('no this user');
+      req.flash('error', '查无此人');
+      res.render('./login');
+      return;
+    }
+    if (user[0].password !== req.body.password) {
+      req.flash('error', '密码错误');
+      res.render('./login');
+    }
+  });
+});
 
 module.exports = router;
