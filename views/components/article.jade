@@ -1,0 +1,17 @@
+.row
+  .col.s12.m6.offset-m3
+    .card-panel 
+      a.post-title(href='#{post._id}')= post.title
+      .post-info
+        i.material-icons access_time
+        span= post.posted_at
+        i.material-icons label
+        span= post.tags.join(', ')
+      p= post.content 
+      
+      // feature
+      //- .menu-bar
+      //-   i.material-icons menu
+      //-   i.material-icons menu
+      //-   i.material-icons menu
+      //-   i.material-icons menu

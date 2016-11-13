@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    #signup-page
+        .row
+            .col.s12.m4.offset-m4
+                .card-panel
+                    h5.login-title.center-align 注册
+                    form(action="/users/signup" method="post")
+                        .input-field
+                            input.validate(name='username', type='text', id='user_name')
+                            label(for='user_name') 用户名
+                        .input-field
+                            input.validate(name='password', type='password', id='password')
+                            label(for='password') 密码
+                        .input-field
+                            input.validate(name='re-password', type='password', id='re-password')
+                            label(for='re-password') 确认密码
+                        button.waves-effect.wave-light.btn.center-align(type='submit') 注册
+                            i.material-icons.right send
+    script
+        // TODO 表单验证

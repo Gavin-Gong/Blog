@@ -1,0 +1,23 @@
+body {
+  min-height: 100vh;
+  background: #eee; }
+
+#login-page {
+  padding-top: 100px; }
+  #login-page .user-avatar {
+    display: block;
+    margin: auto;
+    max-height: 100px;
+    max-width: 100px;
+    text-align: center; }
+  #login-page form button {
+    display: block;
+    margin: auto; }
+
+.page-footer {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+.post-title {
+  font-size: 50px;
+  color: #000; }

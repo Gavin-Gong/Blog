@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	//- p login
+	#login-page
+		.row
+			.col.s12.m4.offset-m4
+				.card-panel
+					img.user-avatar.circle(src="/images/avatar.jpg")
+					//- h5.login-title.center-align 登录
+					form 
+						.input-field
+							input.validate(name='username', type='text', id='user_name')
+							label(for='user_name') UserName
+						.input-field
+							input.validate(name='password', type='password', id='password')
+							label(for='password') Password
+						button.waves-effect.wave-light.btn.center-align(type='button') Login
+							i.material-icons.right send
