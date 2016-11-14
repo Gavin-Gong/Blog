@@ -1,17 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/user');
+var checkNotLogin = require('../middlewares/check').checkNotLogin;
+var checkLogin = require('../middlewares/check').checkLogin;
 
 /* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/', checkNotLogin, function(req, res) {
+  // TODO user page
   res.send('respond with a resource');
 });
 
-router.get('/signup', (req, res) => {
+router.get('/signup', checkNotLogin, (req, res) => {
   res.render('signup');
 });
-
-router.post('/signup', (req, res) => {
+// TODO promise 重写
+router.post('/signup', checkNotLogin, (req, res) => {
   console.log(req.body);
   userModel.find({username: req.username}, (err, user) => {
     if (err) throw err;
@@ -28,33 +31,26 @@ router.post('/signup', (req, res) => {
       // TODO 错误页面
     }
   })
-
 });
 
-
-router.get('/login', (req, res) => {
-  console.log('flash', req.flash('success'));
-  console.log('login');
+router.get('/login', checkNotLogin, (req, res) => {
   res.render('login');
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', checkNotLogin, (req, res) => {
   console.log('body', req.body);
   console.log(req.session);
   userModel.find({username: req.body.username}, (err, user) => {
     console.log('data', user);
     if (user.length && user[0].password === req.body.password) {
       // TODO 记住登录状态
-      req.session.cookie.isLogin = true;
+      req.session.user = user;
       req.flash('success', '登录成功');
-      console.log('登录成功');
       return res.redirect('/posts/all');
     }
     if (!user.length) {
-      console.log('no this user');
-      req.flash('error', '查无此人');
-      res.render('./login');
-      return;
+      req.flash('error', '查无此人, 请先注册');
+      return res.render('./signup');
     }
     if (user[0].password !== req.body.password) {
       req.flash('error', '密码错误');
@@ -63,4 +59,8 @@ router.post('/login', (req, res) => {
   });
 });
 
+router.get('/logout', checkLogin, (req, res, next) => {
+  req.session.user = null;
+  res.redirect('/posts/all');
+});
 module.exports = router;
