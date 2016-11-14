@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    #edit-page.row
+        form(method="post" action="/posts/create")
+            .row
+                .input-field.col.s6.offset-s3
+                    input#input_text(type="text", name="title")
+                    label(for='input_text') 标题
+            .row
+                .input-field.col.s6.offset-s3
+                    textarea#textarea1.materialize-textarea(name="content")
+                    label(for='textarea1') 正文
+            button.waves-effect.wave-light.btn.center-align(type="submit") 发布
+                i.material-icons.right send
+                // TODO 定时保存到草稿
