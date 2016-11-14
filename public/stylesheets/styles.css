@@ -1,6 +1,14 @@
-body {
-  min-height: 100vh;
-  background: #eee; }
+html, body {
+  background: #eee;
+  height: 100%; }
+
+.page-wrapper {
+  min-height: 100%;
+  margin-bottom: -80px; }
+  .page-wrapper:after {
+    content: '';
+    display: block;
+    height: 80px; }
 
 #login-page {
   padding-top: 100px; }
@@ -14,10 +22,21 @@ body {
     display: block;
     margin: auto; }
 
+#edit-page form button {
+  display: block;
+  margin: auto; }
+
 .page-footer {
-  padding-top: 20px;
-  padding-bottom: 20px; }
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 80px;
+  padding-top: 30px !important; }
 
 .post-title {
   font-size: 50px;
   color: #000; }
+
+.notification {
+  position: fixed;
+  z-index: 1000; }

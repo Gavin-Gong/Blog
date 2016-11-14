@@ -1,6 +1,19 @@
-body
-	min-height: 100vh
+$footerHeight: 80px
+
+html, body
+	//min-height: 100vh
 	background: #eee
+	height: 100%
+
+// common styles
+.page-wrapper
+	min-height: 100%
+	margin-bottom: -$footerHeight
+	&:after
+		content: ''
+		display: block
+		height: $footerHeight
+
 
 
 // 注册页面
@@ -17,12 +30,20 @@ body
 			display: block
 			margin: auto
 
-
+#edit-page
+	form
+		button
+			display: block
+			margin: auto
 // components
 // footer
 .page-footer
-	padding-top: 20px
-	padding-bottom: 20px
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	height: $footerHeight
+	padding-top: 30px!important
+	//padding-bottom: 20px
 // article
 .post-title
 	font-size: 50px
@@ -31,11 +52,6 @@ body
 
 .notification
 	position: fixed
-	top: 20px
-	left: 0
-	-webkit-transform: translateX(-50%)
-	-moz-transform: translateX(-50%)
-	-ms-transform: translateX(-50%)
-	-o-transform: translateX(-50%)
-	transform: translateX(-50%)
+	z-index: 1000
+
 
