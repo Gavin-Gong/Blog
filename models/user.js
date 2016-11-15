@@ -4,13 +4,15 @@ let Schema = mongoose.Schema;
 // schema
 
 let userSchema = new Schema({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   // avatar: String,
-  bio: String,
-  age: Number,
+  intro: String,
   gender: String,
-  email: String
+  email: String,
+  sex: String,
+  birth: String,
+  isAdmin:{ type: Boolean, default: false }
 });
 // TODO 密码加密存储
 let Users = mongoose.model('users', userSchema);

@@ -11,7 +11,7 @@ router.get('/all', (req, res, next) => {
   });
   next();
 });
-// TODO fixme 当文章id为create???
+// TODO fixme 当文章id为create???, 添加checkLogin middleware
 router.get('/create',  (req, res) => {
   res.render('edit');
 });
@@ -52,6 +52,34 @@ router.get('/:id', (req, res) => {
     console.log('data', data);
     res.render('post', {post: data});
   });
+});
+
+router.get('/:id/edit', (req, res) => {
+  postModel.findById(req.params.id)
+    .then(post => {
+      console.log(post);
+      if (post) {
+        res.render('edit', {post: post});
+      } else {
+        throw new Error('没有找到该文章');
+      }
+    })
+    .catch(err => {
+      req.flash('error', err.message);
+      res.redirect('./');
+    })
+});
+
+router.get('/:id/remove', (req, res) => {
+  postModel.findByIdAndRemove(req.params.id)
+    .then(found => {
+      req.flash('success', '删除成功');
+      req.redirect('/posts/all');
+    })
+    .catch(err => {
+      req.flash('error', err.message);
+      res.redirect('./');
+    });
 });
 
 module.exports =  router;

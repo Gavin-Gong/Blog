@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    .row#user-page
+        .col.s12.m6.offset-m3
+            .card-panel
+                form(enctype='multi-part')
+                    .avatar-wrapper
+                        // TODO fixme linebreak control
+                        img.user-avatar.circle(src="/images/avatar.jpg")
+                        label(for="user_avatar" class="upload-btn") 点击修改头像
+                        input.avatar-uploader(type="file", name='avatar' id="user_avatar")
+                    .input-field
+                        input.validate(name='username', type='text', id='user_name')
+                        label(for='user_name') 用户名
+                    .input-field
+                        input.validate(name='username', type='text', id='user_intro')
+                        label(for='user_intro') 简介
+                    .input-field
+                        label(for="user_birth") 生日
+                        input(name="birth" type="date" class="datepicker" id="user_birth")
+                    .input-field.sex-select
+                        label(for="user_sex")
+                        select(name="sex" id="user_sex")
+                            option(disabled selected) 请选择性别
+                            option(value='man') 男
+                            option(value='female') 女
+                    .input-field
+                        input.validate(name='username', type='text', id='user_email')
+                        label(for='user_email') email
+                    button.waves-effect.wave-light.btn.center-align(type='submit') 保存修改
+                        i.material-icons.right save
+
+block script
+    script.
+        $('.datepicker').pickadate({
+            selectMonth: true,
+            selectYears: 15
+        });
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+
