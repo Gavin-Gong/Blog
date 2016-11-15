@@ -13,24 +13,20 @@ router.get('/', checkNotLogin, function(req, res) {
 router.get('/signup', checkNotLogin, (req, res) => {
   res.render('signup');
 });
-// TODO promise 重写
 router.post('/signup', checkNotLogin, (req, res) => {
-  console.log(req.body);
-  userModel.find({username: req.username}, (err, user) => {
-    if (err) throw err;
-    console.log(user);
-    if (!user.length && req.body['password'] === req.body['re-password']) {
-      let newUser = new userModel({username: req.body.username, password: req.body.password});
-      newUser.save(err => {
-        if (err) throw err;
-        console.log('注册成功');
-        // TODO 跳转到注册成功页面
-        res.redirect('/users/login');
-      });
-    } else {
-      // TODO 错误页面
-    }
-  })
+  if (req.body.username) throw new Error('用户名不能为空');
+  userModel.findOne({username: req.body.username})
+    .then(user => {
+      if (!!user) throw new Error('该用户名已经被注册');
+      if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
+      if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
+      req.flash('success', '注册成功, 请登录');
+      res.redirect('/users/login');
+    })
+    .catch(err => {
+      req.flash('error', err.message);
+      res.redirect('/users/signup');
+    });
 });
 
 router.get('/login', checkNotLogin, (req, res) => {
@@ -38,29 +34,25 @@ router.get('/login', checkNotLogin, (req, res) => {
 });
 
 router.post('/login', checkNotLogin, (req, res) => {
-  console.log('body', req.body);
-  console.log(req.session);
-  userModel.find({username: req.body.username}, (err, user) => {
-    console.log('data', user);
-    if (user.length && user[0].password === req.body.password) {
-      // TODO 记住登录状态
-      req.session.user = user;
-      req.flash('success', '登录成功');
-      return res.redirect('/posts/all');
-    }
-    if (!user.length) {
-      req.flash('error', '查无此人, 请先注册');
-      return res.render('./signup');
-    }
-    if (user[0].password !== req.body.password) {
-      req.flash('error', '密码错误');
-      res.render('./login');
-    }
-  });
+  userModel.findOne({username: req.body.username})
+    .then(user => {
+      console.log(user);
+      if (user && user.password === req.body.password) {
+        req.session.user = user;
+        req.flash('success', '登录成功');
+        res.redirect('/');
+      } else {
+        throw new Error('用户名或密码错误');
+      }
+    }).catch(err => {
+      req.flash('error', err.message);
+      res.redirect('/users/login');
+    });
 });
 
 router.get('/logout', checkLogin, (req, res, next) => {
   req.session.user = null;
+  req.flash('success', '退出成功');
   res.redirect('/posts/all');
 });
 module.exports = router;
