@@ -2,10 +2,10 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/styles.css')
-    link(rel='stylesheet', href='https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons')
+    //link(rel='stylesheet', href='https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons')
     link(rel='stylesheet', href='/stylesheets/materialize.min.css')
     link(rel='stylesheet', href='/stylesheets/mdicon.css')
+    link(rel='stylesheet', href='/stylesheets/styles.css')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     block style
   body
@@ -13,7 +13,11 @@ html
       include components/nav
       include components/notification
       block content
+    include components/footer
     script(src='/javascripts/jquery-2.1.1.min.js')
     script(src='/javascripts/materialize.min.js')
     block script
-    include components/footer
+    script.
+      setTimeout(function() {
+        $('.notification').fadeOut('slow');
+      }, 2000);

@@ -23,7 +23,9 @@ var app = express();
 
 // express setup
 app.set('views', path.join(__dirname, 'views'));
+// app.locals.pretty = false;
 app.set('view engine', 'jade');
+// app.locals.pretty = false;
 app.set('view cache', false);
 
 // connect mongodb
@@ -56,11 +58,12 @@ app.use('/posts', posts);
 
 // try some feature & delete me in the end
 app.get('/test', (req, res) => {
-  var gavin = new postsModel({title: 'gavin'});
-  gavin.save().then(data => {
-    console.log(data);
-  });
-  res.send('session', gavin.title);
+  // var gavin = new postsModel({title: 'gavin'});
+  // gavin.save().then(data => {
+  //   console.log(data);
+  // });
+  // res.send('session', gavin.title);
+  res.render('user');
 });
 
 // catch 404 and forward to error handler
@@ -75,6 +78,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+  // app.locals.pretty = false;
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

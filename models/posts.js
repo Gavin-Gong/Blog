@@ -6,16 +6,17 @@ var postsSchema = new Schema({
   link: String,
   content: {type: String, required: true},
   tags: Array,
-  posted_at: String
+  posted_at: String,
+  updated_at: String
 });
 
 // 定义方法
 postsSchema.pre('save', function(next) {
   // TODO fixme 用户实际时间? 判断用户所在时区
   // TODO 标签功能?
-  console.log('time pre');
-  console.log(this);
-  if(!this.posted_at) this.posted_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  let nowTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  if(!this.posted_at) this.posted_at = nowTime;
+  this.updated_at = nowTime;
   next();
 });
 

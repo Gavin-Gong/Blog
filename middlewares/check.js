@@ -13,11 +13,17 @@ module.exports = {
     }
     next();
   },
-  checkNotAdmin (req, res, next) {
+  checkUser (req, res, next) {
     if (!req.session.admin) {
       req.flash('error', '权限不够');
       return res.redirect('back');
     }
     next();
   },
+  checkAdmin (req, res, next) {
+    if(req.session.admin) {
+
+    }
+    next();
+  }
 };
