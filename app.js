@@ -21,11 +21,13 @@ var postsModel = require('./models/posts');
 
 var app = express();
 
+// app.locals
+// TODO global variables setting
+app.locals.year = 2016;
+
 // express setup
 app.set('views', path.join(__dirname, 'views'));
-// app.locals.pretty = false;
 app.set('view engine', 'jade');
-// app.locals.pretty = false;
 app.set('view cache', false);
 
 // connect mongodb

@@ -21,6 +21,13 @@ html, body {
   #login-page form button {
     display: block;
     margin: auto; }
+  #login-page form .signup-link {
+    text-align: center;
+    padding-top: 2rem; }
+
+#signup-page form button {
+  display: block;
+  margin: auto; }
 
 #edit-page form button {
   display: block;
