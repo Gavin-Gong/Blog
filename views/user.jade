@@ -6,9 +6,8 @@ block content
             .card-panel
                 form(enctype='multi-part')
                     .avatar-wrapper
-                        // TODO fixme linebreak control
                         img.user-avatar.circle(src="/images/avatar.jpg")
-                        label(for="user_avatar" class="upload-btn") 点击修改头像
+                        label(for="user_avatar" class="upload-btn")
                         input.avatar-uploader(type="file", name='avatar' id="user_avatar")
                     .input-field
                         input.validate(name='username', type='text', id='user_name')
