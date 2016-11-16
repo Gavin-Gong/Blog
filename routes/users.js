@@ -3,16 +3,64 @@ var router = express.Router();
 var userModel = require('../models/user');
 var checkNotLogin = require('../middlewares/check').checkNotLogin;
 var checkLogin = require('../middlewares/check').checkLogin;
+var avatarUpload = require('../middlewares/upload').avatarUpload;
 
 /* GET users listing. */
 router.get('/', checkNotLogin, function(req, res) {
   // TODO user page
   res.send('respond with a resource');
 });
+// TODO session 取
+router.get('/profile/edit', checkLogin, (req, res) => {
+  userModel.findOne({username: req.session.user.username})
+    .then(profile => {
+      // TODO 错误处理
+      res.render('profile', {profile,});
+    })
+    .catch(err => {
+
+    });
+});
+router.post('/profile/edit', checkLogin, (req, res) => {
+  // TODO 对象解构
+  console.log(req.body);
+  userModel.findOneAndUpdate({username: req.session.user.username}, {
+    intro: req.body.intro,
+    sex: req.body.sex,
+    birth: req.body.birth,
+    email: req.body.email
+  })
+    .then(profile => {
+      console.log(profile);
+      // TODO user page render
+      // TODO 将验证放到Model里面
+      // TODO avatar 路径自动处理
+    })
+    .catch(err => {
+      req.flash('error', err.message);
+      res.direct('back');
+    });
+});
+router.post('/profile/avatar',checkLogin, avatarUpload, (req, res) => {
+  console.log('req.file', req.file);
+  userModel.findOneAndUpdate({username: req.session.user.username}, {avatar: req.file.destination.replace('public', '') + '/' + req.file.filename})
+    .then(user => {
+      console.log(user);
+      // TODO JSON 格式数据返回, 前端AJAX处理消息显示
+    })
+    .catch(err => {
+      // TODO 同上
+    });
+});
+// 根据ID查询头像
+router.get('/profile/avatar', (req, res) => {
+  // TODO
+});
 
 router.get('/signup', checkNotLogin, (req, res) => {
   res.render('signup');
 });
+
 router.post('/signup', checkNotLogin, (req, res) => {
   if (req.body.username) throw new Error('用户名不能为空');
   userModel.findOne({username: req.body.username})
@@ -55,4 +103,5 @@ router.get('/logout', checkLogin, (req, res, next) => {
   req.flash('success', '退出成功');
   res.redirect('/posts/all');
 });
+
 module.exports = router;

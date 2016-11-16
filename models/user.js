@@ -8,7 +8,6 @@ let userSchema = new Schema({
   password: { type: String, required: true },
   avatar: String,
   intro: String,
-  gender: String,
   email: String,
   sex: String,
   birth: String,
