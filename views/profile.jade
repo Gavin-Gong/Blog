@@ -1,0 +1,60 @@
+extends layout
+// TODO 将undefined的属性 定义为空
+block content
+    .row#user-page
+        .col.s12.m6.offset-m3
+            .card-panel
+                form(method="POST" action="/users/profile/edit")
+                    .avatar-wrapper
+                        // TODO 使头像不变形
+                        img.user-avatar.circle(src="#{profile.avatar}")
+                        label(for="user_avatar" class="upload-btn")
+                        input.avatar-uploader(type="file", name='avatar' id="user_avatar")
+                    .input-field
+                        input.validate(name='username', type='text', id='user_name' value="#{profile.username ? profile.username : ''}" disabled)
+                        label(for='user_name') 用户名
+                    .input-field
+                        input.validate(name='intro', type='text', id='user_intro' value="#{profile.intro ? profile.intro : ''}")
+                        label(for='user_intro') 简介
+                    .input-field
+                        label(for="user_birth") 生日
+                        input(name="birth" type="date" class="datepicker" id="user_birth" value="#{profile.birth ? profile.birth : ''}")
+                    .input-field.sex-select
+                        label(for="user_sex")
+                        select(name="sex" id="user_sex")
+                            if !profile.sex
+                                option(disabled selected) 请选择性别
+                                // TODO disabled
+                            option(value='man' checked=profile.sex== 'man') 男
+                            option(value='female' checked=profile.sex== 'female') 女
+                    .input-field
+                        input.validate(name='email', type='text', id='user_email' value="#{profile.email ? profile.email : ''}")
+                        label(for='user_email') email
+                    button.waves-effect.wave-light.btn.center-align(type='submit') 保存修改
+                        i.material-icons.right save
+
+block script
+    script.
+        $('.datepicker').pickadate({
+            selectMonth: true,
+            selectYears: 15
+        });
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+        $('.avatar-uploader').change(function () {
+            console.log('file load');
+            console.log($(this)[0].files[0]);
+            let fd = new FormData();
+            fd.append('avatar', $(this)[0].files[0]);
+            $.ajax({
+                url: '/users/profile/avatar',
+                method: 'POST',
+                data: fd,
+                processData: false, // illegal Invocation
+                contentType: false  // 不能指定为multipart
+                // TODO 对文件类型和大小进行处理, 增加loading状态
+            });
+        });
+
+

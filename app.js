@@ -10,7 +10,16 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
-
+var multer = require('multer');
+// './public/images/avatar'
+var storage = multer.diskStorage({
+  destination: path.join(__dirname, 'public/images/avatar'),
+  filename (req, file, cb) {
+    console.log(file);
+    cb(null, file.fieldname + 'user' + Date.now() + '.jpeg');
+  }
+});
+var upload = multer({storage,});
 // require router
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -59,14 +68,14 @@ app.use('/users', users);
 app.use('/posts', posts);
 
 // try some feature & delete me in the end
-app.get('/test', (req, res) => {
-  // var gavin = new postsModel({title: 'gavin'});
-  // gavin.save().then(data => {
-  //   console.log(data);
-  // });
-  // res.send('session', gavin.title);
-  res.render('user');
-});
+// app.get('/test', (req, res) => {
+//   console.log('avatar file', req.file);
+//   res.render('user');
+// });
+// app.post('/test',upload.single('avatar'), (req, res) => {
+//   console.log('avatar file', req.file);
+//   // res.render('user');
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
