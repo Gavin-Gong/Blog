@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+let timePlugin = require('../lib/mongoPlugin').time
 
 // schema
 // mongoose plugin global add created_at & updated_at

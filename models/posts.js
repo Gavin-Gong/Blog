@@ -11,6 +11,7 @@ var postsSchema = new Schema({
 });
 
 // 定义方法
+postsSchema.method('');
 postsSchema.pre('save', function(next) {
   // TODO fixme 用户实际时间? 判断用户所在时区
   // TODO 标签功能?
