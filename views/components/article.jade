@@ -4,7 +4,7 @@
       a.post-title(href='#{post._id}')= post.title
       .post-info
         i.material-icons access_time
-        span= post.posted_at
+        span= post.created_at
         i.material-icons label
         span= post.tags.join(', ')
       p= post.content 

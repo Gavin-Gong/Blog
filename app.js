@@ -26,7 +26,7 @@ var users = require('./routes/users');
 var posts = require('./routes/posts');
 
 // db
-var postsModel = require('./models/posts');
+var postsModel = require('./models/post');
 
 var app = express();
 
