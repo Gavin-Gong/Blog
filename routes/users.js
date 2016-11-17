@@ -10,21 +10,21 @@ router.get('/', checkNotLogin, function(req, res) {
   // TODO user page
   res.send('respond with a resource');
 });
-// TODO session 取
+//
 router.get('/profile/edit', checkLogin, (req, res) => {
-  userModel.findOne({username: req.session.user.username})
+  userModel.getProfileByName(req.session.user.username)
     .then(profile => {
-      // TODO 错误处理
+
       res.render('profile', {profile,});
     })
     .catch(err => {
-
+      // TODO 错误处理
     });
 });
 router.post('/profile/edit', checkLogin, (req, res) => {
   // TODO 对象解构
   console.log(req.body);
-  userModel.findOneAndUpdate({username: req.session.user.username}, {
+  userModel.updateProfileByName(req.session.user.username, {
     intro: req.body.intro,
     sex: req.body.sex,
     birth: req.body.birth,
@@ -33,17 +33,16 @@ router.post('/profile/edit', checkLogin, (req, res) => {
     .then(profile => {
       console.log(profile);
       // TODO user page render
-      // TODO 将验证放到Model里面
       // TODO avatar 路径自动处理
     })
     .catch(err => {
       req.flash('error', err.message);
-      res.direct('back');
+      res.redirect('back');
     });
 });
 router.post('/profile/avatar',checkLogin, avatarUpload, (req, res) => {
   console.log('req.file', req.file);
-  userModel.findOneAndUpdate({username: req.session.user.username}, {avatar: req.file.destination.replace('public', '') + '/' + req.file.filename})
+  userModel.updateProfileByName(req.session.user.username, {avatar: req.file.destination.replace('public', '') + '/' + req.file.filename})
     .then(user => {
       console.log(user);
       // TODO JSON 格式数据返回, 前端AJAX处理消息显示
@@ -63,7 +62,7 @@ router.get('/signup', checkNotLogin, (req, res) => {
 
 router.post('/signup', checkNotLogin, (req, res) => {
   if (req.body.username) throw new Error('用户名不能为空');
-  userModel.findOne({username: req.body.username})
+  userModel.getProfileByName({username: req.body.username})
     .then(user => {
       if (!!user) throw new Error('该用户名已经被注册');
       if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
@@ -82,7 +81,7 @@ router.get('/login', checkNotLogin, (req, res) => {
 });
 
 router.post('/login', checkNotLogin, (req, res) => {
-  userModel.findOne({username: req.body.username})
+  userModel.getProfileByName(req.body.username)
     .then(user => {
       console.log(user);
       if (user && user.password === req.body.password) {
