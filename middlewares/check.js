@@ -21,8 +21,9 @@ module.exports = {
     next();
   },
   checkAdmin (req, res, next) {
-    if(req.session.admin) {
-
+    if (req.session.user && !req.session.user.is_admin) {
+      req.flash('error', '无权限操作');
+      return res.redirect('back');
     }
     next();
   }

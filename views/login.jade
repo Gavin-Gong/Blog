@@ -8,7 +8,7 @@ block content
 				.card-panel
 					img.user-avatar.circle(src="/images/avatar.jpg")
 					//- h5.login-title.center-align 登录
-					form(action="/users/login" method="post")
+					form(action="/u/login" method="post")
 						.input-field
 							input.validate(name='username', type='text', id='user_name')
 							label(for='user_name') 用户名
@@ -18,4 +18,4 @@ block content
 						button.waves-effect.wave-light.btn.center-align(type='submit') 登录
 							i.material-icons.right send
 						.signup-link
-							a(href="/users/signup") 立即注册
+							a(href="/u/signup") 立即注册

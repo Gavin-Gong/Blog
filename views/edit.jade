@@ -3,7 +3,7 @@ extends layout
 
 block content
     #edit-page.row
-        form(method="post" action="/posts/create")
+        form(method="post" action="/post/create")
             .row
                 .input-field.col.s6.offset-s3
                     input#input_text(type="text", name="title" value="#{post ? post.title : ''}")

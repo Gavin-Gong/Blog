@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-let timePlugin = require('../lib/mongoPlugin').timePlugin;
+let { timePlugin } = require('../lib/mongoPlugin');
 
 // schema
 let userSchema = new Schema({
@@ -21,13 +21,12 @@ let userSchema = new Schema({
     enum: ['man', 'female']
   },
   birth: String,
-  isAdmin:{ type: Boolean, default: false }
+  is_admin:{ type: Boolean, default: false }
 });
 userSchema.plugin(timePlugin);
 // TODO 密码加密存储
 let userModel = mongoose.model('users', userSchema);
 
-// module.exports = Users;
 module.exports = {
   getProfileByName (name) {
     return userModel.findOne({username: name});

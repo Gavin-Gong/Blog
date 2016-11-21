@@ -4,7 +4,7 @@ block content
     .row#user-page
         .col.s12.m6.offset-m3
             .card-panel
-                form(method="POST" action="/users/profile/edit")
+                form(method="POST" action="/u/profile/edit")
                     .avatar-wrapper
                         // TODO 使头像不变形
                         img.user-avatar.circle(src="#{profile.avatar}")
@@ -48,7 +48,7 @@ block script
             let fd = new FormData();
             fd.append('avatar', $(this)[0].files[0]);
             $.ajax({
-                url: '/users/profile/avatar',
+                url: '/u/profile/avatar',
                 method: 'POST',
                 data: fd,
                 processData: false, // illegal Invocation

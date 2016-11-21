@@ -24,6 +24,7 @@ var upload = multer({storage,});
 var index = require('./routes/index');
 var users = require('./routes/users');
 var posts = require('./routes/posts');
+let admin = require('./routes/admin');
 
 // db
 var postsModel = require('./models/post');
@@ -64,14 +65,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // router setting
 app.use('/', index);
-app.use('/users', users);
-app.use('/posts', posts);
+app.use('/u', users);
+app.use('/post', posts);
+app.use('/admin', admin);
 
 // try some feature & delete me in the end
-// app.get('/test', (req, res) => {
-//   console.log('avatar file', req.file);
-//   res.render('user');
-// });
+app.get('/test', (req, res) => {
+  // console.log('avatar file', req.file);
+  res.render('admin', {posts: [{title: 'title'}]});
+});
 // app.post('/test',upload.single('avatar'), (req, res) => {
 //   console.log('avatar file', req.file);
 //   // res.render('user');
