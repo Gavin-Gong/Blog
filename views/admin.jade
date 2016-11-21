@@ -1,0 +1,25 @@
+
+extends layout
+block content
+    .row#admin-page
+        .col.s12.m6.offset-m3
+            .card-panel
+                ul.collection.with-header
+                    li.collection-header 文章列表
+                    each post in posts
+                        li.collection-item
+                            div
+                                span= post.title
+                                a.secondary-content(href="post/#{post._id}/remove")
+                                    i.material-icons delete
+                                a.secondary-content(href="post/}")
+                                    i.material-icons remove_red_eye
+                                a.secondary-content(href="post/#{post._id}/edit")
+                                    i.material-icons edit
+
+                            //a.secondary-content(href="#!")
+                            //    i.material-icons create
+
+    .fixed-action-btn(style="bottom:45px; right: 24px")
+        a.btn-floating.btn-large.waves-effect.waves-light.red(href="post/create")
+            i.material-icons(style="line-height: 56px;") create
