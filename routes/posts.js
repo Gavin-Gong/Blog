@@ -1,7 +1,6 @@
-var router = require('express').Router();
-var checkNotLogin = require('../middlewares/check').checkNotLogin;
-var checkLogin = require('../middlewares/check').checkLogin;
-var postModel = require('../models/post');
+let router = require('express').Router();
+let { checkNotLogin, checkLogin } = require('../middlewares/check');
+let postModel = require('../models/post');
 
 router.get('/all', (req, res) => {
   // TODO redirect if '/post'
@@ -25,7 +24,7 @@ router.post('/create', checkLogin, (req, res) => {
       .then(post => {
         console.log('create', post);
         req.flash('success', '发表成功');
-        res.redirect(`/posts/${post._id}`);
+        res.redirect(`/post/${post._id}`);
       })
       .catch(err => {
         console.log(err);
@@ -38,7 +37,7 @@ router.post('/create', checkLogin, (req, res) => {
             req.flash('error', err.errors[field].message);
           }
         }
-        res.redirect('/posts/create');
+        res.redirect('/post/create');
       });
 
 });
@@ -70,7 +69,7 @@ router.get('/:id/remove', (req, res) => {
   postModel.delPostById(req.params.id)
     .then(found => {
       req.flash('success', '删除成功');
-      res.redirect('/posts/all');
+      res.redirect('/post/all');
     })
     .catch(err => {
       req.flash('error', err.message);

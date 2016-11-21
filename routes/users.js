@@ -68,11 +68,11 @@ router.post('/signup', checkNotLogin, (req, res) => {
       if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
       if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
       req.flash('success', '注册成功, 请登录');
-      res.redirect('/users/login');
+      res.redirect('/u/login');
     })
     .catch(err => {
       req.flash('error', err.message);
-      res.redirect('/users/signup');
+      res.redirect('/u/signup');
     });
 });
 
@@ -93,14 +93,14 @@ router.post('/login', checkNotLogin, (req, res) => {
       }
     }).catch(err => {
       req.flash('error', err.message);
-      res.redirect('/users/login');
+      res.redirect('/u/login');
     });
 });
 
 router.get('/logout', checkLogin, (req, res, next) => {
   req.session.user = null;
   req.flash('success', '退出成功');
-  res.redirect('/posts/all');
+  res.redirect('/post/all');
 });
 
 module.exports = router;
