@@ -1,5 +1,5 @@
 let router = require('express').Router();
-let { checkNotLogin, checkLogin } = require('../middlewares/check');
+const { checkNotLogin, checkLogin, checkAdmin } = require('../middlewares/check');
 let postModel = require('../models/post');
 
 router.get('/all', (req, res) => {
@@ -14,11 +14,11 @@ router.get('/all', (req, res) => {
 });
 
 // TODO fixme 当文章id为create???,
-router.get('/create', checkLogin, (req, res) => {
+router.get('/create', checkLogin, checkAdmin, (req, res) => {
   res.render('edit');
 });
 
-router.post('/create', checkLogin, (req, res) => {
+router.post('/create', checkLogin, checkAdmin, (req, res) => {
   console.log(req.body);
     postModel.createPost(req.body)
       .then(post => {
@@ -33,7 +33,7 @@ router.post('/create', checkLogin, (req, res) => {
           for (field in err.errors) {
             console.log(err.errors[field].message);
             // TODO 控制提示顺序
-            // TDDO fixme 显示重复提示
+            // TODO fixme 显示重复提示
             req.flash('error', err.errors[field].message);
           }
         }
@@ -49,7 +49,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', checkLogin, checkAdmin, (req, res) => {
   postModel.getPostById(req.params.id)
     .then(post => {
       console.log(post);
@@ -65,7 +65,7 @@ router.get('/:id/edit', (req, res) => {
     })
 });
 // TODO 修改文章
-router.get('/:id/remove', (req, res) => {
+router.get('/:id/remove', checkLogin, checkAdmin, (req, res) => {
   postModel.delPostById(req.params.id)
     .then(found => {
       req.flash('success', '删除成功');

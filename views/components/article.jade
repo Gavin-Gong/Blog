@@ -1,4 +1,4 @@
-.row
+.row.article-component
   .col.s12.m6.offset-m3
     .card-panel 
       a.post-title(href='#{post._id}')= post.title
@@ -17,3 +17,23 @@
       //    i.material-icons remove_red_eye
       //  a.menu-item(href="")
       //    i.material-icons border_color
+
+      ul.collection
+        li.collection-item.avatar
+          img.circle(src='/images/avatar.jpg', alt='用户头像')
+          //span.title= comment.title
+          span.title comment.title
+          //p= comment.content
+          p comment.content
+
+      form
+        .input-field
+          //img.prefix.circle(src="/images/avatar.jpg")
+          textarea#icon_avatar.materialize-textarea
+          label(for='icon_avatar') 你的评论
+        a.waves-effect.waves-light.btn
+            i.material-icons.right send
+            | 评论
+
+      sa
+        a(href="u/login") 请先登录

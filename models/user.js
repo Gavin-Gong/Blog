@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-let { timePlugin } = require('../lib/mongoPlugin');
+const { timePlugin } = require('../lib/mongoPlugin');
 
 // schema
 let userSchema = new Schema({
@@ -11,7 +11,9 @@ let userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: [6, '密码长度不能小于6'],
+    maxlength: [16, '密码长度不能大于16']
   },
   avatar: String,
   intro: String,
@@ -21,6 +23,7 @@ let userSchema = new Schema({
     enum: ['man', 'female']
   },
   birth: String,
+  // TODO 第一位注册用户为管理员
   is_admin:{ type: Boolean, default: false }
 });
 userSchema.plugin(timePlugin);
@@ -35,4 +38,8 @@ module.exports = {
     // TODO 对象解构
     return userModel.findOneAndUpdate({username: name}, profile)
   },
+  createUser (profile) {
+    console.log(this.getProfileByName);
+    return userModel.create(profile);
+  }
 };

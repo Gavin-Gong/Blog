@@ -1,5 +1,3 @@
-// TODO 插件
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

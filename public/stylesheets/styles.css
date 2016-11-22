@@ -55,6 +55,11 @@ html, body {
 #user-page .select-dropdown {
   color: #9e9e9e; }
 
+#admin-page .admin-icon {
+  margin-left: 16px; }
+  #admin-page .admin-icon:first-child {
+    margin-left: 0; }
+
 .page-footer {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -72,3 +77,6 @@ html, body {
 
 .brand-logo {
   font-size: 40px !important; }
+
+.article-component .post-info span {
+  vertical-align: top; }

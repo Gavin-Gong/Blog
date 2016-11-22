@@ -61,17 +61,27 @@ router.get('/signup', checkNotLogin, (req, res) => {
 });
 
 router.post('/signup', checkNotLogin, (req, res) => {
-  if (req.body.username) throw new Error('用户名不能为空');
-  userModel.getProfileByName({username: req.body.username})
+  if (!req.body.username) {
+    req.flash('error', '用户名不能为空');
+    res.redirect('/u/signup');
+  }
+  userModel.getProfileByName(req.body.username)
     .then(user => {
       if (!!user) throw new Error('该用户名已经被注册');
-      if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
-      if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
-      req.flash('success', '注册成功, 请登录');
-      res.redirect('/u/login');
+      // if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
+      // if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
+      return userModel.createUser(req.body)
+    })
+    .then(user => {
+      console.log(user);
+      if (user) {
+        req.flash('success', '注册成功, 请登录');
+        res.redirect('/u/login');
+      }
     })
     .catch(err => {
-      req.flash('error', err.message);
+      console.log(err);
+      req.flash('error', err.message || err.errors);
       res.redirect('/u/signup');
     });
 });
