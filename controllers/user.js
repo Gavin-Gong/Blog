@@ -1,27 +1,27 @@
-var express = require('express');
-var router = express.Router();
 var userModel = require('../models/user');
-var checkNotLogin = require('../middlewares/check').checkNotLogin;
-var checkLogin = require('../middlewares/check').checkLogin;
-var avatarUpload = require('../middlewares/upload').avatarUpload;
 
-/* GET users listing. */
-router.get('/', checkNotLogin, function(req, res) {
-  // TODO user page
-  res.send('respond with a resource');
-});
-//
-router.get('/profile/edit', checkLogin, (req, res) => {
+// checkSignIn
+// GET -> /u/
+exports.showUser = (req, res) => {
+  // TODO user.jade
+  res.render('user');
+};
+
+// checkSignIn
+// GET -> /u/profile/edit
+exports.showEdit = (req, res, next) => {
   userModel.getProfileByName(req.session.user.username)
     .then(profile => {
-
       res.render('profile', {profile,});
     })
     .catch(err => {
       // TODO 错误处理
     });
-});
-router.post('/profile/edit', checkLogin, (req, res) => {
+};
+
+// checkSignIn
+// POST -> /u/profile/edit
+exports.update = (req, res, next) => {
   // TODO 对象解构
   console.log(req.body);
   userModel.updateProfileByName(req.session.user.username, {
@@ -33,14 +33,16 @@ router.post('/profile/edit', checkLogin, (req, res) => {
     .then(profile => {
       console.log(profile);
       // TODO user page render
-      // TODO avatar 路径自动处理
     })
     .catch(err => {
       req.flash('error', err.message);
       res.redirect('back');
     });
-});
-router.post('/profile/avatar',checkLogin, avatarUpload, (req, res) => {
+};
+
+//checkSignIn
+// POST -> u/profile/avatar
+exports.uploadAvatar = (req, res, next) => {
   console.log('req.file', req.file);
   userModel.updateProfileByName(req.session.user.username, {avatar: req.file.destination.replace('public', '') + '/' + req.file.filename})
     .then(user => {
@@ -50,17 +52,21 @@ router.post('/profile/avatar',checkLogin, avatarUpload, (req, res) => {
     .catch(err => {
       // TODO 同上
     });
-});
-// 根据ID查询头像
-router.get('/profile/avatar', (req, res) => {
+};
+// GET -> /u/:user_id/avatar
+exports.getAvatar = (req, res, next) => {
   // TODO
-});
+};
 
-router.get('/signup', checkNotLogin, (req, res) => {
+// checkNotSignIn
+// GET -> /u/signup
+exports.showSignUp = (req, res) => {
   res.render('signup');
-});
+};
 
-router.post('/signup', checkNotLogin, (req, res) => {
+// checkNotSignIn
+// POST -> u/signup
+exports.signUp = (req, res) => {
   if (!req.body.username) {
     req.flash('error', '用户名不能为空');
     res.redirect('/u/signup');
@@ -68,8 +74,8 @@ router.post('/signup', checkNotLogin, (req, res) => {
   userModel.getProfileByName(req.body.username)
     .then(user => {
       if (!!user) throw new Error('该用户名已经被注册');
-      // if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
-      // if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
+      if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
+      if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
       return userModel.createUser(req.body)
     })
     .then(user => {
@@ -84,13 +90,17 @@ router.post('/signup', checkNotLogin, (req, res) => {
       req.flash('error', err.message || err.errors);
       res.redirect('/u/signup');
     });
-});
+};
 
-router.get('/login', checkNotLogin, (req, res) => {
-  res.render('login');
-});
+// checkNotSignIn
+// GET -> u/signin
+exports.showSignIn = (req, res) => {
+  res.render('signin')
+};
 
-router.post('/login', checkNotLogin, (req, res) => {
+// checkNotSignIn
+// POST -> u/signin
+exports.signIn = (req, res) => {
   userModel.getProfileByName(req.body.username)
     .then(user => {
       console.log(user);
@@ -102,15 +112,16 @@ router.post('/login', checkNotLogin, (req, res) => {
         throw new Error('用户名或密码错误');
       }
     }).catch(err => {
-      req.flash('error', err.message);
-      res.redirect('/u/login');
-    });
-});
+    req.flash('error', err.message);
+    res.redirect('/u/login');
+  });
+};
 
-router.get('/logout', checkLogin, (req, res, next) => {
+// checkSignIn
+// POST -> /u/signout
+exports.signOut = (req, res) => {
   req.session.user = null;
   req.flash('success', '退出成功');
   res.redirect('/post/all');
-});
+};
 
-module.exports = router;

@@ -11,24 +11,10 @@ var expressValidator = require('express-validator');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
-var multer = require('multer');
-// './public/images/avatar'
-var storage = multer.diskStorage({
-  destination: path.join(__dirname, 'public/images/avatar'),
-  filename (req, file, cb) {
-    console.log(file);
-    cb(null, file.fieldname + 'user' + Date.now() + '.jpeg');
-  }
-});
-var upload = multer({storage,});
-// require router
-var index = require('./routes/index');
-var users = require('./routes/users');
-var posts = require('./routes/posts');
-let admin = require('./routes/admin');
 
-// db
-var postsModel = require('./models/post');
+// require router
+var router = require('./router');
+
 
 var app = express();
 
@@ -66,20 +52,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // router setting
-app.use('/', index);
-app.use('/u', users);
-app.use('/post', posts);
-app.use('/admin', admin);
-
-// try some feature & delete me in the end
-app.get('/test', (req, res) => {
-  // console.log('avatar file', req.file);
-  res.render('admin', {posts: [{title: 'title'}]});
-});
-// app.post('/test',upload.single('avatar'), (req, res) => {
-//   console.log('avatar file', req.file);
-//   // res.render('user');
-// });
+app.use('/', router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

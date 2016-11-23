@@ -5,16 +5,12 @@ var timePlugin = require('../lib/mongoPlugin').timePlugin;
 var postSchema = new Schema({
   title: {
     type: String,
-    required: [true, '标题不能为空'],
-    minlength: [6, '标题不能小于6个字符'],
-    maxlength: [25, '标题不能大于25个字符']
+    required: true,
   },
   link: String,
   content: {
     type: String,
-    required: [true, '内容不能为空'],
-    maxlength: [90000, '内容过长'],
-    minlength: [20, '内容不能小于20个字符']
+    required: true,
   },
   tags: Array,
   posted_at: String,

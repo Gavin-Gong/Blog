@@ -3,7 +3,6 @@ var multer = require('multer');
 
 
 var avatarStorage = multer.diskStorage({
-  // destination: path.join(__dirname, 'public/images/avatar'),
   // TODO 优化路径
   destination: 'public/images/avatar',
   filename (req, file, cb) {

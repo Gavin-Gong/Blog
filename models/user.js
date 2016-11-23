@@ -11,9 +11,7 @@ let userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-    minlength: [6, '密码长度不能小于6'],
-    maxlength: [16, '密码长度不能大于16']
+    required: true
   },
   avatar: String,
   intro: String,
