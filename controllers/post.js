@@ -4,6 +4,9 @@ exports.showAllPost = (req, res, next) => {
   postModel.getPosts()
     .then(data => {
       res.render('posts', {posts: data});
+    })
+    .catch(err => {
+      console.log(err.message);
     });
 };
 

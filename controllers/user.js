@@ -82,7 +82,7 @@ exports.signUp = (req, res) => {
       console.log(user);
       if (user) {
         req.flash('success', '注册成功, 请登录');
-        res.redirect('/u/login');
+        res.redirect('/u/signin');
       }
     })
     .catch(err => {
@@ -106,6 +106,7 @@ exports.signIn = (req, res) => {
       console.log(user);
       if (user && user.password === req.body.password) {
         req.session.user = user;
+        req.app.locals.isSignIn = true;
         req.flash('success', '登录成功');
         res.redirect('/');
       } else {
@@ -113,7 +114,7 @@ exports.signIn = (req, res) => {
       }
     }).catch(err => {
     req.flash('error', err.message);
-    res.redirect('/u/login');
+    res.redirect('/u/signin');
   });
 };
 
@@ -121,7 +122,8 @@ exports.signIn = (req, res) => {
 // POST -> /u/signout
 exports.signOut = (req, res) => {
   req.session.user = null;
+  req.app.locals.isSignIn = true;
   req.flash('success', '退出成功');
-  res.redirect('/post/all');
+  res.redirect('/');
 };
 

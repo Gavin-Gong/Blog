@@ -1,3 +1,15 @@
+if isSignIn
+    ul#dropdown1.dropdown-content
+        li
+            a(href='/u/signin') 注册 / 登录
+        li
+            a(href='/u/') 个人中心
+        li
+            a(href='/u/profile/edit') 资料修改
+        li.divider
+        li
+            a(href='/u/signout') 退出登录
+
 nav
     .nav-wrapper.row
         .col.m8.offset-m2.s12
@@ -7,10 +19,14 @@ nav
                 //li
                 //    a(href="/post/create")
                 //        i.material-icons create
+                //li
+                //    a(href="/u/signin")
+                //        i.material-icons account_circle
+                //li
+                //    a(href="/u/signout")
+                //        i.material-icons exit_to_app
                 li
-                    a(href="/u/login")
+                    a.dropdown-button(href="javascript:void()" data-activates="dropdown1")
                         i.material-icons account_circle
-                li
-                    a(href="/u/logout")
-                        i.material-icons exit_to_app
+                li= isSignIn
 

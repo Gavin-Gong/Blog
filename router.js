@@ -1,6 +1,7 @@
 let express = require('express');
 
 // controllers
+let home = require('./controllers/index');
 let post= require('./controllers/post');
 let user = require('./controllers/user');
 
@@ -9,6 +10,9 @@ const { checkSignIn, checkNotSignIn, checkAdmin } = require('./middlewares/check
 const { avatarUpload }= require('./middlewares/upload');
 
 let router = express.Router();
+
+//home
+router.get('/', home.index);
 
 // post controller
 router.get('/post/all', post.showAllPost);
@@ -38,6 +42,6 @@ router.post('/u/signup', user.signUp);
 router.get('/u/signin', checkNotSignIn, user.showSignIn);
 router.post('/u/signin', checkNotSignIn, user.signIn);
 
-router.post('/u/signout', checkSignIn, user.signOut);
+router.get('/u/signout', checkSignIn, user.signOut);
 
 

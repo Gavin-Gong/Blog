@@ -3,7 +3,7 @@ html
   head
     title= title
     //link(rel='stylesheet', href='https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons')
-    link(rel='stylesheet', href='/stylesheets/materialize.min.css')
+    link(rel='stylesheet', href='/stylesheets/materialize.css')
     link(rel='stylesheet', href='/stylesheets/mdicon.css')
     link(rel='stylesheet', href='/stylesheets/styles.css')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
@@ -21,3 +21,11 @@ html
       setTimeout(function() {
         $('.notification').fadeOut('slow');
       }, 2000);
+      $(".dropdown-button").dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrain_width: false,
+        hover: true,
+        gutter: 0,
+        belowOrigin: true
+      });

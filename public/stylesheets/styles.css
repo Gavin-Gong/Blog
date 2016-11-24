@@ -11,7 +11,7 @@ html, body {
     height: 80px; }
 
 #login-page {
-  padding-top: 100px; }
+  padding-top: 1rem; }
   #login-page .user-avatar {
     display: block;
     margin: auto;

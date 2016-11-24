@@ -51,6 +51,8 @@ app.use(session({
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// locals
+// app.locals.isSignIn = true;
 // router setting
 app.use('/', router);
 

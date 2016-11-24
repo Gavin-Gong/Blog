@@ -2,7 +2,7 @@ module.exports = {
   checkSignIn (req, res, next) {
     if (!req.session.user) {
       req.flash('error', '尚未登录');
-      return res.redirect('/u/login');
+      return res.redirect('/u/signin');
     }
     next();
   },
