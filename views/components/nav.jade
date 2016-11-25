@@ -1,7 +1,7 @@
 if isSignIn
     ul#dropdown1.dropdown-content
-        li
-            a(href='/u/signin') 注册 / 登录
+        //li
+        //    a(href='/u/signin') 注册 / 登录
         li
             a(href='/u/') 个人中心
         li
@@ -26,7 +26,9 @@ nav
                 //    a(href="/u/signout")
                 //        i.material-icons exit_to_app
                 li
-                    a.dropdown-button(href="javascript:void()" data-activates="dropdown1")
-                        i.material-icons account_circle
-                li= isSignIn
-
+                    if isSignIn
+                        a.dropdown-button(href="javascript:void()" data-activates="dropdown1")
+                            img.circle(src="/images/default_avatar.jpg", style="height: 50px")
+                    else
+                        a.dropdown-button(href="/u/signin" data-activates="dropdown1")
+                            i.material-icons account_circle

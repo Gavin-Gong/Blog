@@ -122,8 +122,9 @@ exports.signIn = (req, res) => {
 // POST -> /u/signout
 exports.signOut = (req, res) => {
   req.session.user = null;
-  req.app.locals.isSignIn = true;
+  req.app.locals.isSignIn = false;
   req.flash('success', '退出成功');
   res.redirect('/');
 };
+
 
