@@ -4,6 +4,7 @@ let express = require('express');
 let home = require('./controllers/index');
 let post= require('./controllers/post');
 let user = require('./controllers/user');
+let comment = require('./controllers/comment');
 
 // middlewares
 const { checkSignIn, checkNotSignIn, checkAdmin } = require('./middlewares/check');
@@ -11,7 +12,7 @@ const { avatarUpload }= require('./middlewares/upload');
 
 let router = express.Router();
 
-//home
+//home controller
 router.get('/', home.index);
 
 // post controller
@@ -26,6 +27,9 @@ router.post('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 
 router.post('/post/:post_id/delete', checkSignIn, checkAdmin, post.delPost);
 module.exports = router;
+
+// comment
+router.post('/post/:post_id/comment', comment.addComment);
 
 // user controller
 router.get('/u', checkSignIn, user.showUser);

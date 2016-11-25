@@ -14,7 +14,11 @@ var postSchema = new Schema({
   },
   tags: Array,
   posted_at: String,
-  updated_at: String
+  updated_at: String,
+  // TODO comment array
+  // comments: {
+  //   type: Array,
+  // }
 });
 postSchema.plugin(timePlugin);
 // 定义方法
@@ -22,7 +26,7 @@ postSchema.method('test', function () {
   console.log(this);
 });
 
-var postModel = mongoose.model('Posts', postSchema);
+var postModel = mongoose.model('posts', postSchema);
 
 module.exports = {
   getPosts () {

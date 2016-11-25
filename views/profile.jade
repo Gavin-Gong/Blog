@@ -9,7 +9,7 @@ block content
                         // TODO 使头像不变形
                         img.user-avatar.circle(src="#{profile.avatar}")
                         label(for="user_avatar" class="upload-btn")
-                        input.avatar-uploader(type="file", name='avatar' id="user_avatar")
+                        input.avatar-uploader(type="file", name='avatar' id="user_avatar" accept="image/*")
                     .input-field
                         input.validate(name='username', type='text', id='user_name' value="#{profile.username ? profile.username : ''}" disabled)
                         label(for='user_name') 用户名

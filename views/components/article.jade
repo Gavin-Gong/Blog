@@ -1,7 +1,7 @@
 .row.article-component
   .col.s12.m6.offset-m3
     .card-panel 
-      a.post-title(href='#{post._id}')= post.title
+      a.post-title(href='#{post._id}/detail')= post.title
       .post-info
         i.material-icons access_time
         span= post.created_at
@@ -25,15 +25,15 @@
           span.title comment.title
           //p= comment.content
           p comment.content
+      if isSignIn
+        form(action="/post/#{post._id}/comment" method="POST")
+          .input-field
+            //img.prefix.circle(src="/images/avatar.jpg")
+            textarea#icon_avatar.materialize-textarea(name="comment")
+            label(for='icon_avatar') 你的评论
+          button.waves-effect.waves-light.btn(type="submit")
+              i.material-icons.right send
+              | 评论
 
-      form
-        .input-field
-          //img.prefix.circle(src="/images/avatar.jpg")
-          textarea#icon_avatar.materialize-textarea
-          label(for='icon_avatar') 你的评论
-        a.waves-effect.waves-light.btn
-            i.material-icons.right send
-            | 评论
-
-      sa
-        a(href="u/signin") 请先登录
+      else
+          a(href="u/signin") 评论, 请先登录
