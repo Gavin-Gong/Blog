@@ -16,9 +16,10 @@ var postSchema = new Schema({
   posted_at: String,
   updated_at: String,
   // TODO comment array
-  // comments: {
-  //   type: Array,
-  // }
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'comments'
+  }],
 });
 postSchema.plugin(timePlugin);
 // 定义方法
@@ -30,7 +31,7 @@ var postModel = mongoose.model('posts', postSchema);
 
 module.exports = {
   getPosts () {
-    return postModel.find({});
+    return postModel.find({}).populate('comments');
   },
   createPost (post) {
     return postModel.create(post);
@@ -38,8 +39,8 @@ module.exports = {
   getPostById (id) {
     return postModel.findById(id);
   },
-  updatePostById (id) {
-    return postModel.findByIdAndRemove(id);
+  updatePostById (id, obj) {
+    return postModel.findByIdAndUpdate(id, obj);
   },
   delPostById (id) {
     return postModel.findByIdAndRemove(id);

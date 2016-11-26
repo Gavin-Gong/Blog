@@ -28,7 +28,6 @@ module.exports = {
     next();
   },
   setUserState (req, res, next) {
-    console.log(req);
     if (req.session && req.session.user) {
       req.app.locals.isSignIn = true;
     } else {

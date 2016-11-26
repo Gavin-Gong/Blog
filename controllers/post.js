@@ -3,6 +3,7 @@ let postModel = require('../models/post');
 exports.showAllPost = (req, res, next) => {
   postModel.getPosts()
     .then(data => {
+      console.log(data[0].comments[0].content);
       res.render('posts', {posts: data});
     })
     .catch(err => {

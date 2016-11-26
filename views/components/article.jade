@@ -19,12 +19,14 @@
       //    i.material-icons border_color
 
       ul.collection
-        li.collection-item.avatar
-          img.circle(src='/images/avatar.jpg', alt='用户头像')
-          //span.title= comment.title
-          span.title comment.title
-          //p= comment.content
-          p comment.content
+
+        each comment in post.comments
+          li.collection-item.avatar
+            img.circle(src='#{comment.avatar}', alt='用户头像')
+            //span.title= comment.title
+            span.title= comment.username
+            //p= comment.content
+            p= comment.content
       if isSignIn
         form(action="/post/#{post._id}/comment" method="POST")
           .input-field

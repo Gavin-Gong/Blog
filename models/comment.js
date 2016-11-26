@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const { timePlugin } = require('../lib/mongoPlugin');
+var {updatePostById} = require('./post');
 
 var commentSchema = new Schema({
   content: String,
@@ -42,5 +43,12 @@ exports.addComment = (content, user_id, post_id) => {
     content,
     comment_from: user_id,
     comment_to: post_id
+  }).then(comment => {
+    // 添加到 postModel
+    console.log(comment);
+    updatePostById(post_id, {$push: {comments: {_id: comment._id}}})
+      // .catch(err => {
+      //   if (err) console.log(err.message);
+      // });
   });
 };
