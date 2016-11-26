@@ -11,6 +11,8 @@ var expressValidator = require('express-validator');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
+var { setUserState } = require('./middlewares/check');
+
 
 // require router
 var router = require('./router');
@@ -54,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // locals
 // app.locals.isSignIn = true;
 // router setting
-app.use('/', router);
+app.use('/', setUserState, router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

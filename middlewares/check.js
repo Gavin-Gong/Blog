@@ -26,5 +26,14 @@ module.exports = {
       return res.redirect('back');
     }
     next();
+  },
+  setUserState (req, res, next) {
+    console.log(req);
+    if (req.session && req.session.user) {
+      req.app.locals.isSignIn = true;
+    } else {
+      req.app.locals.isSignIn = false;
+    }
+    next();
   }
 };
