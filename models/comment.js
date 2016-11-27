@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const { timePlugin } = require('../lib/mongoPlugin');
-var {updatePostById} = require('./post');
+let {updatePostById} = require('./post');
+// let { ObejectId } = mongoose.Types;
+let { ObjectId }= mongoose.Types;
 
 var commentSchema = new Schema({
   content: String,
@@ -33,10 +35,11 @@ var commentModel = mongoose.model('comments', commentSchema);
 // module.exports =commentModel;
 
 exports.getCommentsByUserId = (user_id) => {
-  return commentModel.find({comment_to: user_id}).populate('comment_from');
+  console.log('user_id', user_id);
+  return commentModel.find({comment_from: new ObjectId(user_id)}).populate('comment_to');
 };
 exports.getCommentsByPostId = (post_id) => {
-  return commentModel.find({comment_from: post_id}).populate('comment_to');
+  return commentModel.find({comment_to: post_id}).populate('comment_from');
 };
 exports.addComment = (content, user_id, post_id) => {
   return commentModel.create({
@@ -47,8 +50,11 @@ exports.addComment = (content, user_id, post_id) => {
     // 添加到 postModel
     console.log(comment);
     updatePostById(post_id, {$push: {comments: {_id: comment._id}}})
-      // .catch(err => {
-      //   if (err) console.log(err.message);
-      // });
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        if (err) console.log(err.message);
+      });
   });
 };
