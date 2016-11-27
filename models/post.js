@@ -15,7 +15,6 @@ var postSchema = new Schema({
   tags: Array,
   posted_at: String,
   updated_at: String,
-  // TODO comment array
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'comments'
@@ -31,13 +30,24 @@ var postModel = mongoose.model('posts', postSchema);
 
 module.exports = {
   getPosts () {
-    return postModel.find({}).populate('comments');
+    return postModel.find({}).populate({
+      path: 'comments',
+      populate: {
+        path: 'comment_from',
+        model: 'users'
+      }});
   },
   createPost (post) {
     return postModel.create(post);
   },
   getPostById (id) {
-    return postModel.findById(id);
+    return postModel.findById(id).populate({
+      path: 'comments',
+      populate: {
+        path: 'comment_from',
+        model: 'users'
+      }
+    });
   },
   updatePostById (id, obj) {
     return postModel.findByIdAndUpdate(id, obj);

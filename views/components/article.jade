@@ -22,9 +22,9 @@
 
         each comment in post.comments
           li.collection-item.avatar
-            img.circle(src='#{comment.avatar}', alt='用户头像')
+            img.circle(src='#{comment.comment_from.avatar}', alt='用户头像')
             //span.title= comment.title
-            span.title= comment.username
+            span.title= comment.comment_from.username
             //p= comment.content
             p= comment.content
       if isSignIn

@@ -3,7 +3,7 @@ let postModel = require('../models/post');
 exports.showAllPost = (req, res, next) => {
   postModel.getPosts()
     .then(data => {
-      console.log(data[0].comments[0].content);
+      // console.log(data);
       res.render('posts', {posts: data});
     })
     .catch(err => {
@@ -36,13 +36,14 @@ exports.createPost = (req, res, next) => {
 exports.showSinglePost = (req, res, next) => {
   postModel.getPostById(req.params.post_id)
     .then(data => {
+      console.log(data);
       res.render('post', {post: data});
   });
 };
 
 // GET -> post/:post_id/edit
 exports.showEditMode = (req, res, next) => {
-  postModel.getPostById(req.params.id)
+  postModel.getPostById(req.params.post_id)
     .then(post => {
       console.log(post);
       if (post) {
@@ -59,7 +60,7 @@ exports.showEditMode = (req, res, next) => {
 
 // POST -> checkSignin && checkAdmin
 exports.delPost = (req, res, next) => {
-  postModel.delPostById(req.params.id)
+  postModel.delPostById(req.params.post_id)
     .then(found => {
       req.flash('success', '删除成功');
       res.redirect('/post/all');

@@ -1,0 +1,39 @@
+// profile
+// comment
+
+extends layout
+block content
+    .row#user-page
+        .col.s12.m6.offset-m3
+            .card-panel
+                .userinfo-wrapper
+                    // TODO 使头像不变形
+                    img.user-avatar.circle(src="#{profile.avatar}")
+                    span.intro= profile.intro
+                ul.collapsible(data-collapsible='accordion')
+                    li
+                        .collapsible-header
+                            i.material-icons whatshots
+                            | 发表的评论
+                        .collapsible-body
+                            ul.collection
+                                each comment in comments
+                                    li.collection-item
+                                        div
+                                            span= comment.content
+                                            a.secondary-content.admin-icon(href="post/post._id/remove")
+                                                i.material-icons delete
+                                            //a.secondary-content.admin-icon(href="post/}")
+                                            //    i.material-icons remove_red_eye
+                                            //a.secondary-content.admin-icon(href="post/#{post._id}/edit")
+                                            //    i.material-icons edit
+
+
+block script
+    script.
+        $(document).ready(function () {
+            $('.collapsible').collapsible({
+                accordion: false
+            });
+        });
+

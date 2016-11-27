@@ -5,6 +5,7 @@ let home = require('./controllers/index');
 let post= require('./controllers/post');
 let user = require('./controllers/user');
 let comment = require('./controllers/comment');
+let admin = require('./controllers/admin');
 
 // middlewares
 const { checkSignIn, checkNotSignIn, checkAdmin } = require('./middlewares/check');
@@ -47,5 +48,8 @@ router.get('/u/signin', checkNotSignIn, user.showSignIn);
 router.post('/u/signin', checkNotSignIn, user.signIn);
 
 router.get('/u/signout', checkSignIn, user.signOut);
+
+// admin controller
+router.get('/u/admin', checkSignIn, checkAdmin, admin.index);
 
 

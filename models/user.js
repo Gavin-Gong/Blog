@@ -13,7 +13,10 @@ let userSchema = new Schema({
     type: String,
     required: true
   },
-  avatar: String,
+  avatar: {
+    type: String,
+    default: '/images/default_avatar.jpg'
+  },
   intro: String,
   email: String,
   sex: {

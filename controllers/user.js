@@ -1,10 +1,21 @@
-var userModel = require('../models/user');
+let userModel = require('../models/user');
+let commentModel = require('../models/comment');
 
 // checkSignIn
 // GET -> /u/
 exports.showUser = (req, res) => {
   // TODO user.jade
-  res.render('user');
+  // TODO !!!
+  let profilePromise = userModel.getProfileByName(req.session.user.username);
+  let commentPromise = commentModel.getCommentsByUserId(req.session.user._id);
+
+  Promise.all([profilePromise, commentPromise]).then(([profile, comments]) => {
+    console.log(profile, comments);
+    res.render('user', {profile, comments});
+  })
+    .catch(err => {
+      console.log(err || err.message);
+    });
 };
 
 // checkSignIn
