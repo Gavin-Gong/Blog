@@ -1,21 +1,37 @@
 extends layout
 
 block content
-	//- p login
-	#login-page
-		.row
-			.col.s12.m4.offset-m4
-				.card-panel
-					img.user-avatar.circle(src="/images/avatar.jpg")
-					//- h5.login-title.center-align 登录
-					form(action="/u/signin" method="post")
-						.input-field
-							input.validate(name='username', type='text', id='user_name')
-							label(for='user_name') 用户名
-						.input-field
-							input.validate(name='password', type='password', id='password')
-							label(for='password') 密码
-						button.waves-effect.wave-light.btn.center-align(type='submit') 登录
-							i.material-icons.right send
-						.signup-link
-							a(href="/u/signup") 立即注册
+  //- p login
+  #login-page
+    .row
+      .col.s12.m4.offset-m4
+        .card-panel
+          img.user-avatar.circle(src="/images/avatar.jpg")
+          //- h5.login-title.center-align 登录
+          form(action="/u/signin" method="post")
+            .input-field
+              input.validate(name='username', type='text', id='user_name')
+              label(for='user_name') 用户名
+            .input-field
+              input.validate(name='password', type='password', id='password')
+              label(for='password') 密码
+            button.waves-effect.wave-light.btn.center-align(type='submit') 登录
+              i.material-icons.right send
+            .signup-link
+              a(href="/u/signup") 立即注册
+block script
+  script.
+    $(document).ready(function() {
+      // TODO 防抖函数 & 截流函数
+      var avatar_url = $('.user-avatar').attr('src');
+      $('#user_name').bind('change', function() {
+        var url = '/u/' + $(this).val() + '/avatar';
+        $.get(url, function (data) {
+          if (data) {
+            $('.user-avatar').attr('src', data.avatar);
+          }
+        });
+      });
+    });
+
+
