@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var timePlugin = require('../lib/mongoPlugin').timePlugin;
+let marked = require('marked');
+let hightlight = require('highlight.js');
+marked.setOptions({
+  highlight (code) {
+    return hightlight.highlightAuto(code).value;
+  }
+});
 
 var postSchema = new Schema({
   title: {
@@ -35,7 +42,12 @@ module.exports = {
       populate: {
         path: 'comment_from',
         model: 'users'
-      }});
+      }}).then(data => {
+        data.forEach(item => {
+          item.content = marked(item.content);
+        });
+      return data;
+    });
   },
   createPost (post) {
     return postModel.create(post);
@@ -47,6 +59,11 @@ module.exports = {
         path: 'comment_from',
         model: 'users'
       }
+    }).then(data => {
+      if (data && data.content) {
+        data.content = marked(data.content);
+      }
+      return data;
     });
   },
   updatePostById (id, obj) {
@@ -55,8 +72,6 @@ module.exports = {
   delPostById (id) {
     return postModel.findByIdAndRemove(id);
   },
-
 };
-// TODO add hot
 
 
