@@ -24,7 +24,7 @@ exports.createPost = (req, res, next) => {
   postModel.createPost(req.body)
     .then(post => {
       req.flash('success', '发表成功');
-      res.redirect(`/post/${post._id}`);
+      res.redirect(`/post/${post._id}/detail`);
     })
     .catch(err => {
       req.flash('error', err.message);
@@ -38,7 +38,10 @@ exports.showSinglePost = (req, res, next) => {
     .then(data => {
       console.log(data);
       res.render('post', {post: data});
-  });
+  })
+    .catch(err => {
+      console.log(err.message);
+    });
 };
 
 // GET -> post/:post_id/edit
@@ -54,7 +57,7 @@ exports.showEditMode = (req, res, next) => {
     })
     .catch(err => {
       req.flash('error', err.message);
-      res.redirect('./');
+      res.redirect(req.get('referer'));
     });
 };
 
@@ -63,7 +66,7 @@ exports.delPost = (req, res, next) => {
   postModel.delPostById(req.params.post_id)
     .then(found => {
       req.flash('success', '删除成功');
-      res.redirect('/post/all');
+      res.redirect('/u/admin');
     })
     .catch(err => {
       req.flash('error', err.message);

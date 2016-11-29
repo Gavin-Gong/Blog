@@ -1,5 +1,6 @@
 let userModel = require('../models/user');
 let commentModel = require('../models/comment');
+let config = require('../config.default');
 
 // checkSignIn
 // GET -> /u/
@@ -10,13 +11,15 @@ exports.showUser = (req, res) => {
   let commentPromise = commentModel.getCommentsByUserId(req.session.user._id);
 
   Promise.all([profilePromise, commentPromise]).then(([profile, comments]) => {
-    console.log(profile, comments);
-    res.render('user', {profile, comments});
+    allowed_comments = comments.filter(item => item.is_allow);
+    not_allowed_comments = comments.filter(item => !item.is_allow);
+    res.render('user', {profile, comments, allowed_comments, not_allowed_comments});
   })
     .catch(err => {
       console.log(err || err.message);
     });
 };
+
 
 // checkSignIn
 // GET -> /u/profile/edit
@@ -43,6 +46,8 @@ exports.update = (req, res, next) => {
   })
     .then(profile => {
       console.log(profile);
+      req.flash('success', '修改成功');
+      res.redirect('../');
       // TODO user page render
     })
     .catch(err => {
@@ -55,7 +60,7 @@ exports.update = (req, res, next) => {
 // POST -> u/profile/avatar
 exports.uploadAvatar = (req, res, next) => {
   console.log('req.file', req.file);
-  userModel.updateProfileByName(req.session.user.username, {avatar: req.file.destination.replace('public', '') + '/' + req.file.filename})
+  userModel.updateProfileByName(req.session.user.username, {avatar: config.avatar.url + req.file.filename})
     .then(user => {
       console.log(user);
       // TODO JSON 格式数据返回, 前端AJAX处理消息显示
@@ -64,9 +69,13 @@ exports.uploadAvatar = (req, res, next) => {
       // TODO 同上
     });
 };
-// GET -> /u/:user_id/avatar
+// GET -> /u/:user_name/avatar
 exports.getAvatar = (req, res, next) => {
   // TODO
+  userModel.getAvatar(req.params.username)
+    .then(avatar => {
+      res.json(avatar);
+    });
 };
 
 // checkNotSignIn

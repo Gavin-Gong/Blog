@@ -69,6 +69,14 @@ html, body {
     padding-top: 1.6rem;
     padding-bottom: 2.4rem; }
 
+.comment-wrapper {
+  padding-top: 0; }
+  .comment-wrapper .comment-tabs {
+    z-index: 1000; }
+  .comment-wrapper .collection {
+    z-index: 1;
+    margin-top: 0; }
+
 #admin-page .admin-icon {
   margin-left: 16px; }
   #admin-page .admin-icon:first-child {
@@ -91,6 +99,11 @@ html, body {
 
 .brand-logo {
   font-size: 40px !important; }
+
+.nav-avatar-link {
+  height: 64px; }
+  .nav-avatar-link img {
+    margin-top: 7px; }
 
 .article-component .post-info span {
   vertical-align: top; }

@@ -1,10 +1,10 @@
-var path = require('path');
-var multer = require('multer');
-
+let path = require('path');
+let multer = require('multer');
+let config = require('../config.default');
 
 var avatarStorage = multer.diskStorage({
   // TODO 优化路径
-  destination: 'public/images/avatar',
+  destination: config.avatar.path,
   filename (req, file, cb) {
     console.log(file);
     // TODO set extname auto

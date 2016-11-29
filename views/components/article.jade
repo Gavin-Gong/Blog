@@ -1,14 +1,14 @@
 .row.article-component
   .col.s12.m6.offset-m3
-    .card-panel 
-      a.post-title(href='#{post._id}/detail')= post.title
+    .card-panel
+      a.post-title(href='/post/#{post._id}/detail')= post.title
       .post-info
         i.material-icons access_time
         span= post.created_at
-        i.material-icons label
-        span= post.tags.join(', ')
-      p= post.content 
-      
+        //i.material-icons label
+        //span= post.tags.join(', ')
+      p !{post.content}
+
       // feature
       //.menu-bar
       //  a.menu-item(href="")

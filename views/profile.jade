@@ -17,6 +17,7 @@ block content
                         input.validate(name='intro', type='text', id='user_intro' value="#{profile.intro ? profile.intro : ''}")
                         label(for='user_intro') 简介
                     .input-field
+                        // TODO 时间格式化
                         label(for="user_birth") 生日
                         input(name="birth" type="date" class="datepicker" id="user_birth" value="#{profile.birth ? profile.birth : ''}")
                     .input-field.sex-select
@@ -25,8 +26,8 @@ block content
                             if !profile.sex
                                 option(disabled selected) 请选择性别
                                 // TODO disabled
-                            option(value='man' checked=profile.sex== 'man') 男
-                            option(value='female' checked=profile.sex== 'female') 女
+                            option(value='man' selected = profile.sex === 'man') 男
+                            option(value='female' selected = profile.sex === 'female') 女
                     .input-field
                         input.validate(name='email', type='text', id='user_email' value="#{profile.email ? profile.email : ''}")
                         label(for='user_email') email
@@ -43,8 +44,6 @@ block script
             $('select').material_select();
         });
         $('.avatar-uploader').change(function () {
-            console.log('file load');
-            console.log($(this)[0].files[0]);
             let fd = new FormData();
             fd.append('avatar', $(this)[0].files[0]);
             $.ajax({

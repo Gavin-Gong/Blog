@@ -26,19 +26,20 @@ router.post('/post/create', checkSignIn, checkAdmin, post.createPost);
 router.get('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 router.post('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 
-router.post('/post/:post_id/delete', checkSignIn, checkAdmin, post.delPost);
+router.get('/post/:post_id/remove', checkSignIn, checkAdmin, post.delPost);
 module.exports = router;
 
 // comment
 router.post('/post/:post_id/comment', comment.addComment);
+router.get('/comment/:comment_id/remove', comment.delComment);
 
 // user controller
 router.get('/u', checkSignIn, user.showUser);
 
 router.get('/u/profile/edit', checkSignIn, user.showEdit);
-router.post('/u', checkSignIn, user.update);
+router.post('/u/profile/edit', checkSignIn, user.update);
 
-router.get('/u/:user_id/avatar', user.getAvatar);
+router.get('/u/:username/avatar', user.getAvatar);
 router.post('/u/profile/avatar', checkSignIn, avatarUpload, user.uploadAvatar); // TODO add middleware
 
 router.get('/u/signup', user.showSignUp);

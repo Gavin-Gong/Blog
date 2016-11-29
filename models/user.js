@@ -40,7 +40,9 @@ module.exports = {
     return userModel.findOneAndUpdate({username: name}, profile)
   },
   createUser (profile) {
-    console.log(this.getProfileByName);
     return userModel.create(profile);
+  },
+  getAvatar (username) {
+    return userModel.findOne({username}, {avatar: 1});
   }
 };
