@@ -10,24 +10,46 @@ block content
                     // TODO 使头像不变形
                     img.user-avatar.circle(src="#{profile.avatar}")
                     span.intro= profile.intro
-                ul.collapsible(data-collapsible='accordion')
-                    li
-                        .collapsible-header
-                            i.material-icons whatshots
-                            | 发表的评论
-                        .collapsible-body
-                            ul.collection
-                                each comment in comments
-                                    li.collection-item
-                                        div
-                                            span= comment.content
-                                            a.secondary-content.admin-icon(href="post/post._id/remove")
-                                                i.material-icons delete
-                                            //a.secondary-content.admin-icon(href="post/}")
-                                            //    i.material-icons remove_red_eye
-                                            //a.secondary-content.admin-icon(href="post/#{post._id}/edit")
-                                            //    i.material-icons edit
 
+    .row.comment-wrapper
+      .col.s12.m6.offset-m3
+        ul.tabs.comment-tabs.z-depth-2
+          li.tab.col.s4
+            a(href='#test1') 所有评论
+          li.tab.col.s4
+            a(href='#test2') 已发表
+          li.tab.col.s4
+            a(href='#test3') 待审核
+        #test1
+          ul.collection
+            each comment in comments
+              li.collection-item
+                div
+                  span= comment.content
+                  a.secondary-content.admin-icon(href="/comment/#{comment._id}/remove")
+                    i.material-icons delete
+            else
+              p.center-align 这里空空如也
+        #test2
+          ul.collection
+            each comment in allowed_comments
+              li.collection-item
+                div
+                  span= comment.content
+                  a.secondary-content.admin-icon(href="/comment/#{comment._id}/remove")
+                    i.material-icons delete
+            else
+              p.center-align 这里空空如也
+        #test3
+          ul.collection
+            each comment in not_allowed_comments
+              li.collection-item
+                div
+                  span= comment.content
+                  a.secondary-content.admin-icon(href="/comment/#{comment._id}/remove")
+                    i.material-icons delete
+            else
+              p.center-align 这里空空如也
 
 block script
     script.
@@ -35,5 +57,6 @@ block script
             $('.collapsible').collapsible({
                 accordion: false
             });
+          $('ul.tabs').tabs();
         });
 
