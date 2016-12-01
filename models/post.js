@@ -63,7 +63,17 @@ module.exports = {
       if (data && data.content) {
         data.content = marked(data.content);
       }
+      // 返回markdown格式string
       return data;
+    });
+  },
+  getRawPostById (id) {
+    return postModel.findById(id).populate({
+      path: 'comments',
+      populate: {
+        path: 'comment_from',
+        model: 'users'
+      }
     });
   },
   updatePostById (id, obj) {

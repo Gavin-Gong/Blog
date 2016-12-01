@@ -1,4 +1,5 @@
 let postModel = require('../models/post');
+const fs = require('fs');
 // GET -> post/all
 exports.showAllPost = (req, res, next) => {
   postModel.getPosts()
@@ -46,7 +47,7 @@ exports.showSinglePost = (req, res, next) => {
 
 // GET -> post/:post_id/edit
 exports.showEditMode = (req, res, next) => {
-  postModel.getPostById(req.params.post_id)
+  postModel.getRawPostById(req.params.post_id)
     .then(post => {
       console.log(post);
       if (post) {
@@ -71,5 +72,20 @@ exports.delPost = (req, res, next) => {
     .catch(err => {
       req.flash('error', err.message);
       res.redirect('back');
+    });
+};
+
+exports.dlSinglePost = (req, res) => {
+  postModel.getRawPostById(req.params.post_id)
+    .then(post => {
+      // create MD file
+      fs.writeFile(`./public/tmp/${post.title}.md`, post.content, (err) => {
+        if (err) throw err;
+        res.download(`./public/tmp/${post.title}.md`, err => {
+          fs.unlink(`./public/tmp/${post.title}.md`, err => {
+            console.log(err);
+          })
+        });
+      });
     });
 };

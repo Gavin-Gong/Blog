@@ -1,5 +1,6 @@
 
 extends layout
+
 block content
     .row#admin-page
         .col.s12.m6.offset-m3
@@ -10,6 +11,8 @@ block content
                         li.collection-item
                             div
                                 span= post.title
+                                a.secondary-content.admin-icon(href="/post/#{post._id}/dl")
+                                  i.material-icons system_update_alt
                                 a.secondary-content.admin-icon(href="/post/#{post._id}/remove")
                                     i.material-icons delete
                                 a.secondary-content.admin-icon(href="/post/#{post._id}/detail")
@@ -17,9 +20,11 @@ block content
                                 a.secondary-content.admin-icon(href="/post/#{post._id}/edit")
                                     i.material-icons edit
 
+
                             //a.secondary-content(href="#!")
                             //    i.material-icons create
 
     .fixed-action-btn(style="bottom:45px; right: 24px")
         a.btn-floating.btn-large.waves-effect.waves-light.red(href="/post/create")
             i.material-icons(style="line-height: 56px;") create
+
