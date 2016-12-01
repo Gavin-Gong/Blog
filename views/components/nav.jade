@@ -28,7 +28,7 @@ nav
                 li
                     if isSignIn
                         a.dropdown-button.nav-avatar-link(href="javascript:void()" data-activates="dropdown1")
-                            img.circle(src="/images/default_avatar.jpg", style="height: 50px")
+                            img.circle(src="#{avatar_url}", style="height: 50px")
                     else
                         a.dropdown-button(href="/u/signin" data-activates="dropdown1")
                             i.material-icons account_circle

@@ -27,7 +27,8 @@ router.get('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 router.post('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 
 router.get('/post/:post_id/remove', checkSignIn, checkAdmin, post.delPost);
-module.exports = router;
+
+router.get('/post/:post_id/dl', post.dlSinglePost);
 
 // comment
 router.post('/post/:post_id/comment', comment.addComment);
@@ -53,4 +54,5 @@ router.get('/u/signout', checkSignIn, user.signOut);
 // admin controller
 router.get('/u/admin', checkSignIn, checkAdmin, admin.index);
 
+module.exports = router;
 

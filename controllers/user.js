@@ -1,6 +1,7 @@
 let userModel = require('../models/user');
 let commentModel = require('../models/comment');
 let config = require('../config.default');
+let sha1 = require('sha1');
 
 // checkSignIn
 // GET -> /u/
@@ -96,6 +97,7 @@ exports.signUp = (req, res) => {
       if (!!user) throw new Error('该用户名已经被注册');
       if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
       if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
+      req.body.password = sha1(req.body.password);
       return userModel.createUser(req.body)
     })
     .then(user => {
@@ -124,7 +126,7 @@ exports.signIn = (req, res) => {
   userModel.getProfileByName(req.body.username)
     .then(user => {
       console.log(user);
-      if (user && user.password === req.body.password) {
+      if (user && user.password === sha1(req.body.password)) {
         req.session.user = user;
         // req.app.locals.isSignIn = true;
         req.flash('success', '登录成功');

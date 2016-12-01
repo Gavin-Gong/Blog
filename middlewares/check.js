@@ -30,6 +30,7 @@ module.exports = {
   setUserState (req, res, next) {
     if (req.session && req.session.user) {
       req.app.locals.isSignIn = true;
+      req.app.locals.avatar_url = req.session.user.avatar;
     } else {
       req.app.locals.isSignIn = false;
     }
