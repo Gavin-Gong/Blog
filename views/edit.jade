@@ -1,17 +1,28 @@
 
 extends layout
+block style
+  link(rel='stylesheet', href='/stylesheets/simplemde.min.css')
 
 block content
     #edit-page.row
         form(method="post" action="/post/create")
-            .row
-                .input-field.col.s6.offset-s3
-                    input#input_text(type="text", name="title" value="#{post ? post.title : ''}")
-                    label(for='input_text') 标题
-            .row
-                .input-field.col.s6.offset-s3
-                    textarea#textarea1.materialize-textarea(name="content")= post ? post.content : ''
-                    label(for='textarea1') 正文
+          .card-panel.col.s8.offset-s2
+            .input-field
+                input#input_text(type="text", name="title" value="#{post ? post.title : ''}")
+                label(for='input_text') 标题
+            .input-field
+                textarea#textarea1(name="content")= post ? post.content : ''
+                //label(for='textarea1') 正文
             button.waves-effect.wave-light.btn.center-align(type="submit")= post ? '确认修改' : '发布'
                 i.material-icons.right send
-                // TODO 定时保存到草稿
+
+block script
+  script(src='/javascripts/simplemde.min.js')
+  script.
+    if(SimpleMDE) {
+      var simplemde = new SimpleMDE({
+        element: $('#textarea1')[0]
+      });
+    } else {
+
+    }
