@@ -5,7 +5,7 @@ let config = {
   host: 'lcoalhost',
   port: 3000,
   db: 'mongodb://localhost/test',
-  session_secret: 'your secret key',
+  session_secret: 'secret_key',
 
   // 头像路径
   avatar: {

@@ -12,6 +12,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
 var { setUserState } = require('./middlewares/check');
+var config = require('./config.default');
 
 
 // require router
@@ -30,7 +31,7 @@ app.set('view engine', 'jade');
 app.set('view cache', false);
 
 // connect mongodb
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect(config.db);
 
 
 // use middleware
@@ -41,9 +42,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({
-  secret: 'secret_key',
+  secret: config.session_secret,
   store: new MongoStore({
-    url: 'mongodb://localhost/test',
+    url: config.db,
     autoRemove: 'native'
   }),
   cookie: {
