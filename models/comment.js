@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const { timePlugin } = require('../lib/mongoPlugin');
 let {updatePostById} = require('./post');
-// let { ObejectId } = mongoose.Types;
 let { ObjectId }= mongoose.Types;
 
 var commentSchema = new Schema({

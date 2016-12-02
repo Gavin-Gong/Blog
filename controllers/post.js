@@ -75,6 +75,37 @@ exports.delPost = (req, res, next) => {
     });
 };
 
+exports.saveDraft = (req, res, next) => {
+  // TODO router
+  postModel.saveDraft(req.body)
+};
+exports.enablePost = (req, res) => {
+  postModel.enablePostById(req.params.post_id)
+    .then(data => {
+      // console.log(data);
+      req.flash('success', '启用成功');
+      res.redirect('/u/admin')
+    }).catch(err => {
+    res.flash('error', err.message);
+    res.redirect('/u/admin');
+  });
+};
+exports.disablePost = (req, res) => {
+  // 必须加then才行
+  postModel.disablePostById(req.params.post_id)
+    .then(data => {
+      // console.log(data);
+      req.flash('success', '禁用成功');
+      res.redirect('/u/admin')
+    })
+    .catch(err => {
+      res.flash('error', err.message);
+      res.redirect('/u/admin');
+      console.log(err.message);
+    });
+};
+
+
 exports.dlSinglePost = (req, res) => {
   postModel.getRawPostById(req.params.post_id)
     .then(post => {
@@ -89,3 +120,5 @@ exports.dlSinglePost = (req, res) => {
       });
     });
 };
+
+

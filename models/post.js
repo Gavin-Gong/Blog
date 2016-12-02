@@ -19,7 +19,12 @@ var postSchema = new Schema({
     type: String,
     required: true,
   },
-  tags: Array,
+  // -1 -> 草稿, 0 -> 未发布, 1 -> 发布
+  status: {
+    type: Number,
+    enum: [-1, 0, 1],
+    default: 1
+  },
   posted_at: String,
   updated_at: String,
   comments: [{
@@ -28,7 +33,7 @@ var postSchema = new Schema({
   }],
 });
 postSchema.plugin(timePlugin);
-// 定义方法
+// TODO
 postSchema.method('test', function () {
   console.log(this);
 });
@@ -51,6 +56,15 @@ module.exports = {
   },
   createPost (post) {
     return postModel.create(post);
+  },
+  saveDraft (post) {
+    return postModel.create(Object.assign(post, {status: -1}));
+  },
+  disablePostById (id) {
+    return postModel.findByIdAndUpdate(id, {$set: {status: 0}});
+  },
+  enablePostById (id) {
+    return postModel.findByIdAndUpdate(id, {$set: {status: 1}});
   },
   getPostById (id) {
     return postModel.findById(id).populate({

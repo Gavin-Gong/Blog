@@ -15,12 +15,12 @@ block content
       .col.s12.m6.offset-m3
         ul.tabs.comment-tabs.z-depth-2
           li.tab.col.s4
-            a(href='#test1') 所有评论
+            a(href='#all-comment') 所有评论
           li.tab.col.s4
-            a(href='#test2') 已发表
+            a(href='#posted-comment') 已发表
           li.tab.col.s4
-            a(href='#test3') 待审核
-        #test1
+            a(href='#nocheck-comment') 待审核
+        #all-comment
           ul.collection
             each comment in comments
               li.collection-item
@@ -30,7 +30,7 @@ block content
                     i.material-icons delete
             else
               p.center-align 这里空空如也
-        #test2
+        #posted-comment
           ul.collection
             each comment in allowed_comments
               li.collection-item
@@ -40,7 +40,7 @@ block content
                     i.material-icons delete
             else
               p.center-align 这里空空如也
-        #test3
+        #nocheck-comment
           ul.collection
             each comment in not_allowed_comments
               li.collection-item
@@ -54,9 +54,5 @@ block content
 block script
     script.
         $(document).ready(function () {
-            $('.collapsible').collapsible({
-                accordion: false
-            });
           $('ul.tabs').tabs();
         });
-

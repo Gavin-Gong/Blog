@@ -23,6 +23,10 @@ router.get('/post/:post_id/detail', post.showSinglePost);
 router.get('/post/create',checkSignIn, checkAdmin, post.showWriteMode);
 router.post('/post/create', checkSignIn, checkAdmin, post.createPost);
 
+router.post('/post/save', checkSignIn, checkAdmin, post.saveDraft);
+router.get('/post/:post_id/enable', checkSignIn, checkAdmin, post.enablePost);
+router.get('/post/:post_id/disable', checkSignIn, checkAdmin, post.disablePost);
+
 router.get('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 router.post('/post/:post_id/edit', checkSignIn, checkAdmin, post.showEditMode);
 

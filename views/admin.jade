@@ -3,28 +3,75 @@ extends layout
 
 block content
     .row#admin-page
+      .row.comment-wrapper
         .col.s12.m6.offset-m3
-            .card-panel
-                ul.collection.with-header
-                    li.collection-header 文章列表
-                    each post in posts
-                        li.collection-item
-                            div
-                                span= post.title
-                                a.secondary-content.admin-icon(href="/post/#{post._id}/dl")
-                                  i.material-icons system_update_alt
-                                a.secondary-content.admin-icon(href="/post/#{post._id}/remove")
-                                    i.material-icons delete
-                                a.secondary-content.admin-icon(href="/post/#{post._id}/detail")
-                                    i.material-icons remove_red_eye
-                                a.secondary-content.admin-icon(href="/post/#{post._id}/edit")
-                                    i.material-icons edit
+          ul.tabs.comment-tabs.z-depth-2
+            li.tab.col.s4
+              a(href='#posted-post') 已发表
+            li.tab.col.s4
+              a(href='#block-post') 未发表
+            li.tab.col.s4
+              a(href='#draft-post') 草稿
+          #posted-post
+            ul.collection
+              each post in enabledPosts
+                li.collection-item
+                  div
+                    span= post.title
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/disable")
+                      i.material-icons  power_settings_new
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/dl")
+                      i.material-icons system_update_alt
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/remove")
+                      i.material-icons delete
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/detail")
+                      i.material-icons remove_red_eye
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/edit")
+                      i.material-icons edit
+              else
+                p.center-align 这里空空如也
+          #block-post
+            ul.collection
+              each post in disabledPosts
+                li.collection-item
+                  div
+                    span= post.title
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/enable")
+                      i.material-icons  power_settings_new
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/dl")
+                      i.material-icons system_update_alt
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/remove")
+                      i.material-icons delete
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/detail")
+                      i.material-icons remove_red_eye
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/edit")
+                      i.material-icons edit
+              else
+                p.center-align 这里空空如也
+          #draft-post
+            ul.collection
+              each post in drafts
+                li.collection-item
+                  div
+                    span= post.title
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/dl")
+                      i.material-icons system_update_alt
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/remove")
+                      i.material-icons delete
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/enable")
+                      i.material-icons spellcheck
+                    a.secondary-content.admin-icon(href="/post/#{post._id}/edit")
+                      i.material-icons edit
+              else
+                p.center-align 这里空空如也
 
 
-                            //a.secondary-content(href="#!")
-                            //    i.material-icons create
+      .fixed-action-btn(style="bottom:45px; right: 24px")
+         a.btn-floating.btn-large.waves-effect.waves-light.red(href="/post/create")
+           i.material-icons(style="line-height: 56px;") note_add
 
-    .fixed-action-btn(style="bottom:45px; right: 24px")
-        a.btn-floating.btn-large.waves-effect.waves-light.red(href="/post/create")
-            i.material-icons(style="line-height: 56px;") create
-
+block script
+  script.
+    $(document).ready(function () {
+      $('ul.tabs').tabs();
+    });
