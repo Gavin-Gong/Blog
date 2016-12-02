@@ -76,7 +76,7 @@ html, body {
 .comment-wrapper {
   padding-top: 0; }
   .comment-wrapper .comment-tabs {
-    z-index: 1000; }
+    z-index: 10; }
   .comment-wrapper .collection {
     z-index: 1;
     margin-top: 0; }

@@ -28,7 +28,7 @@ let userSchema = new Schema({
   is_admin:{ type: Boolean, default: false }
 });
 userSchema.plugin(timePlugin);
-// TODO 密码加密存储
+
 let userModel = mongoose.model('users', userSchema);
 
 module.exports = {
