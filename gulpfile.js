@@ -2,6 +2,7 @@
 // watch sass文件的变化 -> 编译 -> 刷新浏览器
 //
 let path = require('path');
+let exec = require('child_process').exec;
 
 // node-sass gulp-nodemon browser-sync k
 let gulp = require('gulp');
@@ -10,6 +11,7 @@ let sass = require('gulp-sass');
 let bs = require('browser-sync');
 let reload = bs.reload;
 
+let dbPath = 'C:\\Program Files\\MongoDB\\Server\\3.2\\bin';
 let templateDir = path.join(__dirname, 'views');
 let publicDir = path.join(__dirname, 'public');
 
@@ -34,11 +36,18 @@ gulp.task('sass', () => {
     .pipe(gulp.dest(styleFolder));
 });
 
+gulp.task('mongodb', () => {
+  let commands = [`cd ${dbPath}`, 'mongod'].join(' && ');
+  exec(commands, (err, out, code) => {
+    if(err) console.log(err.message);
+  });
+});
+
 gulp.task('reload', () => {
   bs.reload();
-})
+});
 
-gulp.task('default', ['sass', 'nodemon'], () => {
+gulp.task('default', ['mongodb', 'sass', 'nodemon'], () => {
   console.log('sass changed');
     bs.init({
       proxy: "localhost:8890/"
