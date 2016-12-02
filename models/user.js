@@ -24,7 +24,6 @@ let userSchema = new Schema({
     enum: ['man', 'female']
   },
   birth: String,
-  // TODO 第一位注册用户为管理员
   is_admin:{ type: Boolean, default: false }
 });
 userSchema.plugin(timePlugin);
@@ -40,7 +39,12 @@ module.exports = {
     return userModel.findOneAndUpdate({username: name}, profile)
   },
   createUser (profile) {
-    return userModel.create(profile);
+   return userModel.find().then(data => {
+      if(!data.length) {
+        Object.assign(profile, {is_admin: true});
+      }
+      return userModel.create(profile);
+    })
   },
   getAvatar (username) {
     return userModel.findOne({username}, {avatar: 1});
