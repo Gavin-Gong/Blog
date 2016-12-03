@@ -14,7 +14,7 @@
     "express": "~4.13.4",
     "express-flash": "^0.0.2",
     "express-session": "^1.14.2",
-    "express-validator": "^2.21.0",
+    "express-validator": "^3.0.0",
     "google-auth-library": "^0.9.10",
     "googleapis": "^14.2.0",
     "highlight.js": "^9.8.0",

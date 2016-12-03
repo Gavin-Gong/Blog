@@ -36,6 +36,7 @@ gulp.task('sass', () => {
     .pipe(gulp.dest(styleFolder));
 });
 
+// open mongodb on windows
 gulp.task('mongodb', () => {
   let commands = [`cd ${dbPath}`, 'mongod'].join(' && ');
   exec(commands, (err, out, code) => {
