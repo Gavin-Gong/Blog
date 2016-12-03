@@ -1,21 +1,14 @@
 let commentModel = require('../models/comment');
 
 exports.addComment = (req, res) => {
-  // console.log(req.body);
-  // console.log(req.params.post_id);
-  // console.log(req.session.user);
-  if (req.body.comment && req.body.comment.trim() && req.session.user._id && req.params.post_id) {
-    commentModel.addComment(req.body.comment, req.session.user._id, req.params.post_id)
-      .then(data => {
-        // res.redirect('./');
-        res.redirect(req.get('referer'));
-      })
-      .catch(err => {
+  commentModel.addComment(req.body.comment, req.session.user._id, req.params.post_id)
+    .then(data => {
+      req.flash('success', '评论成功');
+      res.redirect('/');
+    })
+    .catch(err => {
 
-      });
-  } else {
-    console.log('参数不全');
-  }
+    });
 };
 
 exports.delComment = (req, res) => {

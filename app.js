@@ -13,6 +13,7 @@ var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
 var { setUserState } = require('./middlewares/check');
 var config = require('./config.default');
+var trimer = require('./middlewares/trimer');
 
 
 // require router
@@ -28,7 +29,7 @@ app.locals.year = 2016;
 // express setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('view cache', false);
+app.set('view cache', true);
 
 // connect mongodb
 mongoose.connect(config.db);
@@ -38,8 +39,15 @@ mongoose.connect(config.db);
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator({
+  // custom validator -> used in validator.js
+  customValidators: {
+    isSex: (val) => {
+      return val === 'female' || val === 'man'
+    }
+  }
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({
   secret: config.session_secret,
@@ -51,12 +59,10 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   },
 }));
+app.use(trimer);
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// locals
-// app.locals.isSignIn = true;
-// router setting
 app.use('/', setUserState, router);
 
 // catch 404 and forward to error handler

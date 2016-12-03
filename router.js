@@ -9,7 +9,8 @@ let admin = require('./controllers/admin');
 
 // middlewares
 const { checkSignIn, checkNotSignIn, checkAdmin } = require('./middlewares/check');
-const { avatarUpload }= require('./middlewares/upload');
+const { avatarUpload } = require('./middlewares/upload');
+const { validateSignUp, validatePost, validateProfile, validateComment } = require('./middlewares/validator');
 
 let router = express.Router();
 
@@ -21,7 +22,7 @@ router.get('/post/all', post.showAllPost);
 router.get('/post/:post_id/detail', post.showSinglePost);
 
 router.get('/post/create',checkSignIn, checkAdmin, post.showWriteMode);
-router.post('/post/create', checkSignIn, checkAdmin, post.createPost);
+router.post('/post/create', checkSignIn, checkAdmin, validatePost, post.createPost);
 
 router.post('/post/save', checkSignIn, checkAdmin, post.saveDraft);
 router.get('/post/:post_id/enable', checkSignIn, checkAdmin, post.enablePost);
@@ -35,20 +36,20 @@ router.get('/post/:post_id/remove', checkSignIn, checkAdmin, post.delPost);
 router.get('/post/:post_id/dl', post.dlSinglePost);
 
 // comment
-router.post('/post/:post_id/comment', comment.addComment);
+router.post('/post/:post_id/comment', validateComment, comment.addComment);
 router.get('/comment/:comment_id/remove', comment.delComment);
 
 // user controller
 router.get('/u', checkSignIn, user.showUser);
 
 router.get('/u/profile/edit', checkSignIn, user.showEdit);
-router.post('/u/profile/edit', checkSignIn, user.update);
+router.post('/u/profile/edit', checkSignIn, validateProfile, user.update);
 
 router.get('/u/:username/avatar', user.getAvatar);
 router.post('/u/profile/avatar', checkSignIn, avatarUpload, user.uploadAvatar); // TODO add middleware
 
 router.get('/u/signup', user.showSignUp);
-router.post('/u/signup', user.signUp);
+router.post('/u/signup',validateSignUp, user.signUp);
 
 router.get('/u/signin', checkNotSignIn, user.showSignIn);
 router.post('/u/signin', checkNotSignIn, user.signIn);

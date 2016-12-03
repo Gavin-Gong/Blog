@@ -33,7 +33,7 @@ var postSchema = new Schema({
   }],
 });
 postSchema.plugin(timePlugin);
-// TODO
+// TODO refactor
 postSchema.method('test', function () {
   console.log(this);
 });

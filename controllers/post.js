@@ -1,7 +1,7 @@
 let postModel = require('../models/post');
 const fs = require('fs');
 // GET -> post/all
-exports.showAllPost = (req, res, next) => {
+exports.showAllPost = (req, res) => {
   postModel.getPosts()
     .then(data => {
       // console.log(data);
@@ -14,14 +14,13 @@ exports.showAllPost = (req, res, next) => {
 
 // signin && checkAdmin
 // GET -> post/create
-exports.showWriteMode = (req, res, next) => {
+exports.showWriteMode = (req, res) => {
   res.render('edit');
 };
 
 // signin && checkAdmin
 // POST -> post/create
-exports.createPost = (req, res, next) => {
-  // TODO 表单验证
+exports.createPost = (req, res) => {
   postModel.createPost(req.body)
     .then(post => {
       req.flash('success', '发表成功');

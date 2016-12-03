@@ -35,8 +35,8 @@ module.exports = {
     return userModel.findOne({username: name});
   },
   updateProfileByName (name, profile) {
-    // TODO 对象解构
-    return userModel.findOneAndUpdate({username: name}, profile)
+    let { intro, birth, sex, email } = profile; // filter fileds
+    return userModel.findOneAndUpdate({username: name}, {intro, birth, sex, email});
   },
   createUser (profile) {
    return userModel.find().then(data => {

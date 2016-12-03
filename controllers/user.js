@@ -6,8 +6,6 @@ let sha1 = require('sha1');
 // checkSignIn
 // GET -> /u/
 exports.showUser = (req, res) => {
-  // TODO user.jade
-  // TODO !!!
   let profilePromise = userModel.getProfileByName(req.session.user.username);
   let commentPromise = commentModel.getCommentsByUserId(req.session.user._id);
 
@@ -37,19 +35,12 @@ exports.showEdit = (req, res, next) => {
 // checkSignIn
 // POST -> /u/profile/edit
 exports.update = (req, res, next) => {
-  // TODO 对象解构
   console.log(req.body);
-  userModel.updateProfileByName(req.session.user.username, {
-    intro: req.body.intro,
-    sex: req.body.sex,
-    birth: req.body.birth,
-    email: req.body.email
-  })
+  userModel.updateProfileByName(req.session.user.username, req.body)
     .then(profile => {
       console.log(profile);
       req.flash('success', '修改成功');
-      res.redirect('../');
-      // TODO user page render
+      res.redirect(req.originalUrl);
     })
     .catch(err => {
       req.flash('error', err.message);
@@ -88,27 +79,22 @@ exports.showSignUp = (req, res) => {
 // checkNotSignIn
 // POST -> u/signup
 exports.signUp = (req, res) => {
-  if (!req.body.username) {
-    req.flash('error', '用户名不能为空');
-    res.redirect('/u/signup');
-  }
+  console.log('I am Here');
+
   userModel.getProfileByName(req.body.username)
     .then(user => {
-      if (!!user) throw new Error('该用户名已经被注册');
-      if (req.body.password !== req.body.repassword) throw new Error('两次输入密码不一致');
-      if (req.body.password.length < 10) throw new Error('密码不能小于10个字符');
       req.body.password = sha1(req.body.password);
+      // 从用户体验讲, 这部分应该放表单验证前面 -> 重构可以考虑加个查用户是否被注册的接口解决
+      if (user) throw new Error('该用户已经被注册');
       return userModel.createUser(req.body)
     })
     .then(user => {
-      console.log(user);
       if (user) {
         req.flash('success', '注册成功, 请登录');
         res.redirect('/u/signin');
       }
     })
     .catch(err => {
-      console.log(err);
       req.flash('error', err.message || err.errors);
       res.redirect('/u/signup');
     });
@@ -128,7 +114,6 @@ exports.signIn = (req, res) => {
       console.log(user);
       if (user && user.password === sha1(req.body.password)) {
         req.session.user = user;
-        // req.app.locals.isSignIn = true;
         req.flash('success', '登录成功');
         res.redirect('/');
       } else {
@@ -144,7 +129,6 @@ exports.signIn = (req, res) => {
 // POST -> /u/signout
 exports.signOut = (req, res) => {
   req.session.user = null;
-  // req.app.locals.isSignIn = false;
   req.flash('success', '退出成功');
   res.redirect('/');
 };
