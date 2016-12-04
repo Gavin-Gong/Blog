@@ -58,6 +58,5 @@ exports.addComment = (content, user_id, post_id) => {
   });
 };
 exports.delComment = (comment_id) => {
-  console.log(comment_id);
   return commentModel.remove({_id: comment_id});
 };

@@ -12,10 +12,10 @@ exports.addComment = (req, res) => {
 };
 
 exports.delComment = (req, res) => {
-  // TODO 删除权限
   commentModel.delComment(req.params.comment_id)
     .then(data => {
-      console.log(data);
+      req.flash('success', '删除成功');
+      res.redirect('/u/');
     })
     .catch(err => {
       console.log(err.message);
