@@ -22,7 +22,7 @@ exports.showUser = (req, res) => {
 
 // checkSignIn
 // GET -> /u/profile/edit
-exports.showEdit = (req, res, next) => {
+exports.showEdit = (req, res) => {
   userModel.getProfileByName(req.session.user.username)
     .then(profile => {
       res.render('profile', {profile,});
@@ -34,7 +34,7 @@ exports.showEdit = (req, res, next) => {
 
 // checkSignIn
 // POST -> /u/profile/edit
-exports.update = (req, res, next) => {
+exports.update = (req, res) => {
   console.log(req.body);
   userModel.updateProfileByName(req.session.user.username, req.body)
     .then(profile => {
@@ -50,20 +50,21 @@ exports.update = (req, res, next) => {
 
 //checkSignIn
 // POST -> u/profile/avatar
-exports.uploadAvatar = (req, res, next) => {
+exports.uploadAvatar = (req, res) => {
   console.log('req.file', req.file);
-  userModel.updateProfileByName(req.session.user.username, {avatar: config.avatar.url + req.file.filename})
+  const path = config.avatar.url + req.file.filename;
+  console.log(path);
+  userModel.updateAvatar(req.session.user.username, path)
     .then(user => {
-      console.log(user);
-      // TODO JSON 格式数据返回, 前端AJAX处理消息显示
+      req.flash('success', '头像上传成功');
+      res.redirect(req.originalUrl);
     })
     .catch(err => {
-      // TODO 同上
+      //
     });
 };
 // GET -> /u/:user_name/avatar
-exports.getAvatar = (req, res, next) => {
-  // TODO
+exports.getAvatar = (req, res) => {
   userModel.getAvatar(req.params.username)
     .then(avatar => {
       res.json(avatar);

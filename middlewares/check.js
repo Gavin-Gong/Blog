@@ -1,3 +1,5 @@
+const { getAvatar } = require('../models/user');
+
 module.exports = {
   checkSignIn (req, res, next) {
     if (!req.session.user) {
@@ -30,7 +32,13 @@ module.exports = {
   setUserState (req, res, next) {
     if (req.session && req.session.user) {
       req.app.locals.isSignIn = true;
-      req.app.locals.avatar_url = req.session.user.avatar;
+      // session 更新是有时间限制的, 可能db更新但是session没更新
+      getAvatar(req.session.user.username).then(({avatar}) => {
+        console.log(avatar);
+        req.app.locals.avatar_url = avatar;
+      }).catch(err => {
+        req.flash('error', '没有找到该用户的头像');
+      });
     } else {
       req.app.locals.isSignIn = false;
     }

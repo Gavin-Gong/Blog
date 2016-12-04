@@ -28,7 +28,7 @@ exports.createPost = (req, res) => {
     })
     .catch(err => {
       req.flash('error', err.message);
-      res.redirect(req.get('referer'));
+      res.redirect(req.originalUrl);
     });
 };
 
@@ -57,7 +57,7 @@ exports.showEditMode = (req, res, next) => {
     })
     .catch(err => {
       req.flash('error', err.message);
-      res.redirect(req.get('referer'));
+      res.redirect(req.originalUrl);
     });
 };
 
