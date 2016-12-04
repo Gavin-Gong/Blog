@@ -48,5 +48,8 @@ module.exports = {
   },
   getAvatar (username) {
     return userModel.findOne({username}, {avatar: 1});
-  }
+  },
+  updateAvatar (username, path) {
+    return userModel.findOneAndUpdate({ username }, {avatar: path});
+  },
 };

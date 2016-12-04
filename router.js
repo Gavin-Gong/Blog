@@ -46,7 +46,7 @@ router.get('/u/profile/edit', checkSignIn, user.showEdit);
 router.post('/u/profile/edit', checkSignIn, validateProfile, user.update);
 
 router.get('/u/:username/avatar', user.getAvatar);
-router.post('/u/profile/avatar', checkSignIn, avatarUpload, user.uploadAvatar); // TODO add middleware
+router.post('/u/profile/avatar', checkSignIn, avatarUpload, user.uploadAvatar);
 
 router.get('/u/signup', user.showSignUp);
 router.post('/u/signup',validateSignUp, user.signUp);
